@@ -18,8 +18,10 @@ public class PlayerMovement : MonoBehaviour
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
-    public float jumpForce = 10f;
+    public float jumpForce = 2f;
     private bool jumpRequest;
+    private bool extraJump;
+    private bool resetRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
 
@@ -27,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        
+
+        extraJump = true;
     }
 
     // Update is called once per frame
@@ -37,9 +40,21 @@ public class PlayerMovement : MonoBehaviour
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
 
-        if (Input.GetButtonDown("Jump") && canMove)
+        // not very efficent I dont think
+        if (isGrounded()) {
+            extraJump = true;
+        }
+
+        if (Input.GetButtonDown("Jump") && canMove && isGrounded())
         {
             jumpRequest  = true;
+        }
+        else if (Input.GetButtonDown("Jump") && canMove && !isGrounded() && extraJump)
+        {
+            // reset vertical velocity
+            resetRequest = true;
+            jumpRequest = true;
+            extraJump = false;
         }
     }
 
@@ -54,6 +69,14 @@ public class PlayerMovement : MonoBehaviour
         // jump if requested
         if (jumpRequest)
         {
+            if (resetRequest)
+            {
+                resetRequest = false;
+                Vector3 currentVert = m_Rigidbody.linearVelocity;
+                 currentVert.y = 0f;
+                m_Rigidbody.linearVelocity = currentVert;
+            }
+
             Jump();
             jumpRequest = false;
         }
