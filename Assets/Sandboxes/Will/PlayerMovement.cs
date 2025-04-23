@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
-    public float jumpForce = 5f;
+    public float jumpForce = 10f;
     private bool jumpRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
@@ -55,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         if (jumpRequest)
         {
             Jump();
+            jumpRequest = false;
         }
 
         m_Movement.Set(horizontal, 0f, vertical);
@@ -78,8 +79,13 @@ public class PlayerMovement : MonoBehaviour
         }
 
         else {
-            m_Rigidbody.linearVelocity = Vector3.zero;
-            m_Rigidbody.angularVelocity = Vector3.zero;
+            // cancel out horizontal movement
+            Vector3 currentVelocity = m_Rigidbody.linearVelocity;
+            currentVelocity.x = 0f;
+            currentVelocity.z = 0f;
+            m_Rigidbody.linearVelocity = currentVelocity;
+           // m_Rigidbody.linearVelocity = Vector3.zero;
+            //m_Rigidbody.angularVelocity = Vector3.zero;
         }
     }
 
