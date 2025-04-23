@@ -18,6 +18,10 @@ public class PlayerMovement : MonoBehaviour
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
+    public float jumpForce = 2f;
+    private bool jumpRequest;
+    private bool extraJump;
+    private bool resetRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
 
@@ -25,7 +29,8 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        
+
+        extraJump = true;
     }
 
     // Update is called once per frame
@@ -34,6 +39,23 @@ public class PlayerMovement : MonoBehaviour
         // GetAxisRaw removes smoothing, allowing for instant stops
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
+        // not very efficent I dont think
+        if (isGrounded()) {
+            extraJump = true;
+        }
+
+        if (Input.GetButtonDown("Jump") && canMove && isGrounded())
+        {
+            jumpRequest  = true;
+        }
+        else if (Input.GetButtonDown("Jump") && canMove && !isGrounded() && extraJump)
+        {
+            // reset vertical velocity
+            resetRequest = true;
+            jumpRequest = true;
+            extraJump = false;
+        }
     }
 
     void FixedUpdate() {
@@ -42,6 +64,21 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove) 
         {
             return;
+        }
+
+        // jump if requested
+        if (jumpRequest)
+        {
+            if (resetRequest)
+            {
+                resetRequest = false;
+                Vector3 currentVert = m_Rigidbody.linearVelocity;
+                 currentVert.y = 0f;
+                m_Rigidbody.linearVelocity = currentVert;
+            }
+
+            Jump();
+            jumpRequest = false;
         }
 
         m_Movement.Set(horizontal, 0f, vertical);
@@ -65,14 +102,30 @@ public class PlayerMovement : MonoBehaviour
         }
 
         else {
-            m_Rigidbody.linearVelocity = Vector3.zero;
-            m_Rigidbody.angularVelocity = Vector3.zero;
+            // cancel out horizontal movement
+            Vector3 currentVelocity = m_Rigidbody.linearVelocity;
+            currentVelocity.x = 0f;
+            currentVelocity.z = 0f;
+            m_Rigidbody.linearVelocity = currentVelocity;
+           // m_Rigidbody.linearVelocity = Vector3.zero;
+            //m_Rigidbody.angularVelocity = Vector3.zero;
         }
     }
 
     // move with animation
     // just moving for now
 
+    private void Jump()
+    // applies jump force
+    {
+        m_Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private bool isGrounded()
+    // checks if the player is on a surface
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 0.6f);
+    }
 
 
 }
