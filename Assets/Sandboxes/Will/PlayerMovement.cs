@@ -18,6 +18,8 @@ public class PlayerMovement : MonoBehaviour
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
+    public float jumpForce = 5f;
+    private bool jumpRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
 
@@ -34,6 +36,11 @@ public class PlayerMovement : MonoBehaviour
         // GetAxisRaw removes smoothing, allowing for instant stops
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+
+        if (Input.GetButtonDown("Jump") && canMove)
+        {
+            jumpRequest  = true;
+        }
     }
 
     void FixedUpdate() {
@@ -42,6 +49,12 @@ public class PlayerMovement : MonoBehaviour
         if (!canMove) 
         {
             return;
+        }
+
+        // jump if requested
+        if (jumpRequest)
+        {
+            Jump();
         }
 
         m_Movement.Set(horizontal, 0f, vertical);
@@ -73,6 +86,17 @@ public class PlayerMovement : MonoBehaviour
     // move with animation
     // just moving for now
 
+    private void Jump()
+    // applies jump force
+    {
+        m_Rigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private bool isGrounded()
+    // checks if the player is on a surface
+    {
+        return Physics.Raycast(transform.position, Vector3.down, 0.6f);
+    }
 
 
 }
