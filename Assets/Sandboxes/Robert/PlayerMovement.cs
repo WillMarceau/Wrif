@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         // jump if requested
         if (jumpRequest)
         {
+            // double Jump
             if (resetRequest)
             {
                 resetRequest = false;
@@ -79,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
                 currentVert.y = 0f;
                 m_Rigidbody.linearVelocity = currentVert;
                 Jump();
+                ani.SetTrigger("IsDouble");
             }
             else {
                 Jump();
