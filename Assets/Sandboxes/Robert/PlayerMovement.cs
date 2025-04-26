@@ -15,7 +15,6 @@ public class PlayerMovement : MonoBehaviour
 
     // Movement
     private float horizontal;
-    public float sprintIncrease = 2f;
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
@@ -23,9 +22,9 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpRequest;
     private bool extraJump;
     private bool resetRequest;
-    private bool sprintRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
+    public Transform cameraTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -33,8 +32,6 @@ public class PlayerMovement : MonoBehaviour
         m_Rigidbody = GetComponent<Rigidbody>();
 
         extraJump = true;
-        jumpRequest = false;
-        sprintRequest = false;
     }
 
     // Update is called once per frame
@@ -47,13 +44,6 @@ public class PlayerMovement : MonoBehaviour
         // not very efficent I dont think
         if (isGrounded()) {
             extraJump = true;
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift)) {
-            sprintRequest = true;
-        }
-        else {
-            sprintRequest = false;
         }
 
         if (Input.GetButtonDown("Jump") && canMove && isGrounded())
@@ -92,6 +82,30 @@ public class PlayerMovement : MonoBehaviour
             jumpRequest = false;
         }
 
+        // TEST CODE BELOW: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        // get camera directions
+        Vector3 camForward = cameraTransform.forward;
+        Vector3 camRight = cameraTransform.right;
+
+        // flatten to horizontal plane
+        camForward.y = 0;
+        camRight.y = 0;
+        camForward.Normalize();
+        camRight.Normalize();
+
+        // combine input with camera direction
+        Vector3 moveDirection = camForward * input.y + camRight * input.x;
+        moveDirection.Normalize(); // keep consistent speed even diagonally
+
+        // apply movement
+        Vector3 velocity = moveDirection * moveSpeed;
+            // preserve vertical physics (eg. gravity)
+        m_Rigidbody.linearVelocity = new Vector3(velocity.x, m_Rigidbody.linearVelocity.y, velocity.z);
+
+        // TEST CODE ABOVE ~~~~~~~~~~~~~~~~~~~~~
+
         m_Movement.Set(horizontal, 0f, vertical);
 
         // dont move unless input
@@ -108,14 +122,7 @@ public class PlayerMovement : MonoBehaviour
             m_Rotation = Quaternion.LookRotation(desiredDirection);
 
             // just moving here for now
-            if (sprintRequest) {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * (sprintIncrease * moveSpeed) * Time.fixedDeltaTime);
-
-            }
-            else {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
-            }
-            //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
+            m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
             m_Rigidbody.MoveRotation (m_Rotation);
         }
 
