@@ -1094,6 +1094,10 @@ PrefabInstance:
       propertyPath: jumpForce
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3102444535729464052, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1783137025}
     - target: {fileID: 5957816121759364989, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
       propertyPath: m_Name
       value: Temp Player1
