@@ -7,7 +7,6 @@ public class PlayerMovementRobert : MonoBehaviour
     public bool canMove = true;
 
     // animator
-    Animator ani;
 
     // rigidbody
     Rigidbody m_Rigidbody;
@@ -31,7 +30,6 @@ public class PlayerMovementRobert : MonoBehaviour
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        ani = GetComponent<Animator>();
 
         extraJump = true;
     }
@@ -72,19 +70,12 @@ public class PlayerMovementRobert : MonoBehaviour
         // jump if requested
         if (jumpRequest)
         {
-            // double Jump
             if (resetRequest)
             {
                 resetRequest = false;
                 Vector3 currentVert = m_Rigidbody.linearVelocity;
-                currentVert.y = 0f;
+                 currentVert.y = 0f;
                 m_Rigidbody.linearVelocity = currentVert;
-                Jump();
-                ani.SetTrigger("IsDouble");
-            }
-            else {
-                Jump();
-                ani.SetTrigger("IsJumping");
             }
 
             Jump();
@@ -103,8 +94,6 @@ public class PlayerMovementRobert : MonoBehaviour
         // dont move unless input
         if (m_Movement.sqrMagnitude > 0.01f)
         {
-            Debug.Log("true");
-            ani.SetBool("IsRunning", true);
             m_Movement.Normalize();
 
             // set walking animation
@@ -116,8 +105,7 @@ public class PlayerMovementRobert : MonoBehaviour
             m_Rotation = Quaternion.LookRotation(desiredDirection);
 
             // just moving here for now
-            
-            m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime); //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
+            m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
             m_Rigidbody.MoveRotation (m_Rotation);
         }
 
@@ -127,18 +115,8 @@ public class PlayerMovementRobert : MonoBehaviour
             currentVelocity.x = 0f;
             currentVelocity.z = 0f;
             m_Rigidbody.linearVelocity = currentVelocity;
-            ani.SetBool("IsRunning", false);
-            Debug.Log("false");
            // m_Rigidbody.linearVelocity = Vector3.zero;
             //m_Rigidbody.angularVelocity = Vector3.zero;
-
-            // TEST CODE: rotate in place if there's any horizontal input
-            if (Mathf.Abs(horizontal) > 0.1f)
-            {
-                float turnAmount = horizontal * turnSpeed * Time.fixedDeltaTime;
-                Quaternion turnOffset = Quaternion.Euler(0, turnAmount, 0);
-                m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnOffset);
-            }
         }
     }
 
