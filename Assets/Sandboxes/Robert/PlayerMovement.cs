@@ -82,31 +82,14 @@ public class PlayerMovement : MonoBehaviour
             jumpRequest = false;
         }
 
-        // TEST CODE BELOW: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        Vector2 input = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
-
-        // get camera directions
-        Vector3 camForward = cameraTransform.forward;
-        Vector3 camRight = cameraTransform.right;
-
-        // flatten to horizontal plane
-        camForward.y = 0;
-        camRight.y = 0;
-        camForward.Normalize();
-        camRight.Normalize();
-
-        // combine input with camera direction
-        Vector3 moveDirection = camForward * input.y + camRight * input.x;
-        moveDirection.Normalize(); // keep consistent speed even diagonally
-
-        // apply movement
-        Vector3 velocity = moveDirection * moveSpeed;
-            // preserve vertical physics (eg. gravity)
-        m_Rigidbody.linearVelocity = new Vector3(velocity.x, m_Rigidbody.linearVelocity.y, velocity.z);
-
-        // TEST CODE ABOVE ~~~~~~~~~~~~~~~~~~~~~
-
-        m_Movement.Set(horizontal, 0f, vertical);
+        // calculate movement relative to camera
+        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = cameraTransform.right;
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        m_Movement = (cameraForward * vertical + cameraRight * horizontal);
 
         // dont move unless input
         if (m_Movement.sqrMagnitude > 0.01f)
