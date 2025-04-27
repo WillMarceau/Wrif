@@ -1,13 +1,12 @@
 using UnityEngine;
 
-public class PlayerMovementWill : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 
     // enable movement
     public bool canMove = true;
 
     // animator
-    Animator ani;
 
     // rigidbody
     Rigidbody m_Rigidbody;
@@ -16,7 +15,6 @@ public class PlayerMovementWill : MonoBehaviour
 
     // Movement
     private float horizontal;
-    public float sprintIncrease = 2f;
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
@@ -24,19 +22,16 @@ public class PlayerMovementWill : MonoBehaviour
     private bool jumpRequest;
     private bool extraJump;
     private bool resetRequest;
-    private bool sprintRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
+    public Transform cameraTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
-        ani = GetComponent<Animator>();
 
         extraJump = true;
-        jumpRequest = false;
-        sprintRequest = false;
     }
 
     // Update is called once per frame
@@ -49,13 +44,6 @@ public class PlayerMovementWill : MonoBehaviour
         // not very efficent I dont think
         if (isGrounded()) {
             extraJump = true;
-        }
-
-        if (Input.GetKey(KeyCode.LeftShift)) {
-            sprintRequest = true;
-        }
-        else {
-            sprintRequest = false;
         }
 
         if (Input.GetButtonDown("Jump") && canMove && isGrounded())
@@ -82,32 +70,30 @@ public class PlayerMovementWill : MonoBehaviour
         // jump if requested
         if (jumpRequest)
         {
-            // double Jump
             if (resetRequest)
             {
                 resetRequest = false;
                 Vector3 currentVert = m_Rigidbody.linearVelocity;
-                currentVert.y = 0f;
+                 currentVert.y = 0f;
                 m_Rigidbody.linearVelocity = currentVert;
-                Jump();
-                ani.SetTrigger("IsDouble");
-            }
-            else {
-                Jump();
-                ani.SetTrigger("IsJumping");
             }
 
             Jump();
             jumpRequest = false;
         }
 
-        m_Movement.Set(horizontal, 0f, vertical);
+        // calculate movement relative to camera
+        Vector3 cameraForward = cameraTransform.forward;
+        Vector3 cameraRight = cameraTransform.right;
+        cameraForward.y = 0f;
+        cameraRight.y = 0f;
+        cameraForward.Normalize();
+        cameraRight.Normalize();
+        m_Movement = (cameraForward * vertical + cameraRight * horizontal);
 
         // dont move unless input
         if (m_Movement.sqrMagnitude > 0.01f)
         {
-            Debug.Log("true");
-            ani.SetBool("IsRunning", true);
             m_Movement.Normalize();
 
             // set walking animation
@@ -119,16 +105,7 @@ public class PlayerMovementWill : MonoBehaviour
             m_Rotation = Quaternion.LookRotation(desiredDirection);
 
             // just moving here for now
-            if (sprintRequest) {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * (sprintIncrease * moveSpeed) * Time.fixedDeltaTime);
-                ani.SetBool("IsSprinting", true);
-
-            }
-            else {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
-                ani.SetBool("IsSprinting", false);
-            }
-            //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
+            m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
             m_Rigidbody.MoveRotation (m_Rotation);
         }
 
@@ -138,8 +115,6 @@ public class PlayerMovementWill : MonoBehaviour
             currentVelocity.x = 0f;
             currentVelocity.z = 0f;
             m_Rigidbody.linearVelocity = currentVelocity;
-            ani.SetBool("IsRunning", false);
-            Debug.Log("false");
            // m_Rigidbody.linearVelocity = Vector3.zero;
             //m_Rigidbody.angularVelocity = Vector3.zero;
         }
