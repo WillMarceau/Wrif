@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovementWill : MonoBehaviour
 {
 
     // enable movement
@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Movement
     private float horizontal;
+    public float sprintIncrease = 2f;
     private float vertical;
     public float turnSpeed = 20f;
     public float moveSpeed = 5f;
@@ -23,9 +24,9 @@ public class PlayerMovement : MonoBehaviour
     private bool jumpRequest;
     private bool extraJump;
     private bool resetRequest;
+    private bool sprintRequest;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
-    public Transform cameraTransform;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -34,6 +35,8 @@ public class PlayerMovement : MonoBehaviour
         ani = GetComponent<Animator>();
 
         extraJump = true;
+        jumpRequest = false;
+        sprintRequest = false;
     }
 
     // Update is called once per frame
@@ -46,6 +49,13 @@ public class PlayerMovement : MonoBehaviour
         // not very efficent I dont think
         if (isGrounded()) {
             extraJump = true;
+        }
+
+        if (Input.GetKey(KeyCode.LeftShift)) {
+            sprintRequest = true;
+        }
+        else {
+            sprintRequest = false;
         }
 
         if (Input.GetButtonDown("Jump") && canMove && isGrounded())
@@ -91,14 +101,7 @@ public class PlayerMovement : MonoBehaviour
             jumpRequest = false;
         }
 
-        // calculate movement relative to camera
-        Vector3 cameraForward = cameraTransform.forward;
-        Vector3 cameraRight = cameraTransform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-        m_Movement = (cameraForward * vertical + cameraRight * horizontal);
+        m_Movement.Set(horizontal, 0f, vertical);
 
         // dont move unless input
         if (m_Movement.sqrMagnitude > 0.01f)
