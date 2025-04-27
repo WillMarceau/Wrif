@@ -131,6 +131,14 @@ public class PlayerMovementRobert : MonoBehaviour
             Debug.Log("false");
            // m_Rigidbody.linearVelocity = Vector3.zero;
             //m_Rigidbody.angularVelocity = Vector3.zero;
+
+            // TEST CODE: rotate in place if there's any horizontal input
+            if (Mathf.Abs(horizontal) > 0.1f)
+            {
+                float turnAmount = horizontal * turnSpeed * Time.fixedDeltaTime;
+                Quaternion turnOffset = Quaternion.Euler(0, turnAmount, 0);
+                m_Rigidbody.MoveRotation(m_Rigidbody.rotation * turnOffset);
+            }
         }
     }
 
