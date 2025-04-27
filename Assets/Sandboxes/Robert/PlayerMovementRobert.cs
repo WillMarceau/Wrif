@@ -116,16 +116,8 @@ public class PlayerMovementRobert : MonoBehaviour
             m_Rotation = Quaternion.LookRotation(desiredDirection);
 
             // just moving here for now
-            if (sprintRequest) {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * (sprintIncrease * moveSpeed) * Time.fixedDeltaTime);
-                ani.SetBool("IsSprinting", true);
-
-            }
-            else {
-                m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
-                ani.SetBool("IsSprinting", false);
-            }
-            //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
+            
+            m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime); //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
             m_Rigidbody.MoveRotation (m_Rotation);
         }
 
