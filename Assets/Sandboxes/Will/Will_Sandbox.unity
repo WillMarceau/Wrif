@@ -1729,6 +1729,7 @@ GameObject:
   - component: {fileID: 5578603185065325858}
   - component: {fileID: 7993403128960585984}
   - component: {fileID: 3576249003178511692}
+  - component: {fileID: 8444055667267086100}
   m_Layer: 0
   m_Name: Y Bot
   m_TagString: Untagged
@@ -3016,10 +3017,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canMove: 1
-  sprintIncrease: 2
   turnSpeed: 20
   moveSpeed: 5
   jumpForce: 3
+  cameraTransform: {fileID: 0}
 --- !u!54 &8444055667267086099
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3047,6 +3048,23 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8444055667267086100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1183493249}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95410972940ae4a1985560dfad51ddbe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  sprintIncrease: 2
+  turnSpeed: 20
+  moveSpeed: 5
+  jumpForce: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
