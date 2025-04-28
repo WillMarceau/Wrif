@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour
     private bool extraJump;
     private bool resetRequest;
     private bool sprintRequest;
+    private bool airborn;
     public Transform cameraTransform;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
@@ -38,6 +39,7 @@ public class PlayerMovement : MonoBehaviour
         extraJump = true;
         jumpRequest = false;
         sprintRequest = false;
+        airborn = false;
     }
 
     // Update is called once per frame
@@ -50,6 +52,10 @@ public class PlayerMovement : MonoBehaviour
         // not very efficent I dont think
         if (isGrounded()) {
             extraJump = true;
+            airborn = false;
+        }
+        else {
+            airborn = true;
         }
 
         if (Input.GetKey(KeyCode.LeftShift)) {
@@ -83,7 +89,7 @@ public class PlayerMovement : MonoBehaviour
         // jump if requested
         if (jumpRequest)
         {
-            // double Jump
+            // double Jump trigger
             if (resetRequest)
             {
                 resetRequest = false;
@@ -94,12 +100,24 @@ public class PlayerMovement : MonoBehaviour
                 ani.SetTrigger("IsDouble");
             }
             else {
+                // single jump trigger
                 Jump();
                 ani.SetTrigger("IsJumping");
             }
 
             Jump();
             jumpRequest = false;
+        }
+
+        // set falling state
+        if (airborn) 
+        {
+            Debug.Log("true");
+            ani.SetBool("IsAirborn", true);
+        }
+        else {
+            Debug.Log("false");
+            ani.SetBool("IsAirborn", false);
         }
 
         Vector3 cameraForward = cameraTransform.forward;
@@ -111,10 +129,19 @@ public class PlayerMovement : MonoBehaviour
         m_Movement = (cameraForward * vertical + cameraRight * horizontal);
 
 
+/*if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
+{
+    // rotate toward input movement
+    Vector3 desiredDirection = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.fixedDeltaTime, 0f);
+    m_Rotation = Quaternion.LookRotation(desiredDirection);
+    m_Rigidbody.MoveRotation(m_Rotation);
+}
+*/
+
+
         // dont move unless input
-        if (m_Movement.sqrMagnitude > 0.01f)
+        if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
         {
-            Debug.Log("true");
             ani.SetBool("IsRunning", true);
             m_Movement.Normalize();
 
@@ -147,7 +174,6 @@ public class PlayerMovement : MonoBehaviour
             currentVelocity.z = 0f;
             m_Rigidbody.linearVelocity = currentVelocity;
             ani.SetBool("IsRunning", false);
-            Debug.Log("false");
            // m_Rigidbody.linearVelocity = Vector3.zero;
             //m_Rigidbody.angularVelocity = Vector3.zero;
 
@@ -172,7 +198,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded()
     // checks if the player is on a surface
     {
-        return Physics.Raycast(transform.position, Vector3.down, 0.6f);
+        return Physics.Raycast(transform.position, Vector3.down, 0.3f);
     }
 
 
