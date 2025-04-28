@@ -443,6 +443,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 466209390}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &463796607 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5957816121759364989, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
+  m_PrefabInstance: {fileID: 964154894}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &466209389
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +1001,10 @@ PrefabInstance:
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1783137025}
+    - target: {fileID: 3517050663125423335, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
+      propertyPath: m_Constraints
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: 5957816121759364989, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
       propertyPath: m_Name
       value: Temp Player1
@@ -1040,13 +1049,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3102444535729464052, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6477788831041957319, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1007951790}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5957816121759364989, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1263525523}
   m_SourcePrefab: {fileID: 100100000, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
 --- !u!1 &964517662
 GameObject:
@@ -1456,6 +1469,23 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6477788831041957319, guid: e42d34773a8934b5faafcec6406bb652, type: 3}
   m_PrefabInstance: {fileID: 964154894}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1263525523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463796607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37227f729cecb41849e380a85b9209b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  canMove: 1
+  turnSpeed: 4
+  moveSpeed: 5
+  jumpForce: 5
+  cameraTransform: {fileID: 1783137025}
 --- !u!1 &1737595206
 GameObject:
   m_ObjectHideFlags: 0
