@@ -5,6 +5,8 @@ public class RadioController : MonoBehaviour
 
     public Transform player;
 
+    public Rigidbody playerRigidBody;
+
     public GameObject miniGame;
 
     public GameObject pressE;
@@ -16,10 +18,11 @@ public class RadioController : MonoBehaviour
     private bool near = false;
 
     private bool gameActive = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -47,7 +50,7 @@ public class RadioController : MonoBehaviour
                 gameActive = true;
                 pressE.SetActive(false);
                 miniGame.SetActive(true);
-                Time.timeScale = 0f;
+                playerRigidBody.constraints = RigidbodyConstraints.FreezeAll;
 
 
             }
@@ -56,7 +59,7 @@ public class RadioController : MonoBehaviour
                 Debug.Log("Closing Game...");
                 gameActive = false;
                 miniGame.SetActive(false);
-                Time.timeScale = 1.0f;
+                playerRigidBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
                 pressE.SetActive(true);
 
             }
