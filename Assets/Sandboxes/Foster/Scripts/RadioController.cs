@@ -9,6 +9,8 @@ public class RadioController : MonoBehaviour
 
     public GameObject miniGame;
 
+    public GameObject openWalls;
+
     public GameObject pressE;
 
     public float interactionRange;
@@ -19,10 +21,9 @@ public class RadioController : MonoBehaviour
 
     private bool gameActive = false;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
 
+    public void KeyGetPress(){
+        openWalls.SetActive(true);
     }
 
     // Update is called once per frame
@@ -39,6 +40,9 @@ public class RadioController : MonoBehaviour
         {
             near = false;
             pressE.SetActive(false);
+            openWalls.SetActive(false);
+
+
 
         }
 
