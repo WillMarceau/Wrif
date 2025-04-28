@@ -8,7 +8,12 @@ public class ButtonManager : MonoBehaviour
     public Image rightLight;
     public Button KeyCodeButton;
 
-    private float timer = 2.0f;
+    public GameObject NorthWall;
+    public GameObject WestWall;
+    public GameObject SouthWall;
+
+
+    public float timer;
     private float nextReset = 0.0f;
 
     private bool leftOn;
@@ -18,7 +23,12 @@ public class ButtonManager : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-
+    public void KeyButton()
+    {
+        NorthWall.SetActive(false);
+        WestWall.SetActive(false);
+        SouthWall.SetActive(false);
+    }
     public void left()
     {
         leftLight.color = new Color (0, 255, 0);
