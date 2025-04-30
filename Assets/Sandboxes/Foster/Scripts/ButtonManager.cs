@@ -23,12 +23,14 @@ public class ButtonManager : MonoBehaviour
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    //called by the key button, deactivates exit walls
     public void KeyButton()
     {
         NorthWall.SetActive(false);
         WestWall.SetActive(false);
         SouthWall.SetActive(false);
     }
+    //these methods(L, C, R) activate the "lights" in the minigame
     public void left()
     {
         leftLight.color = new Color (0, 255, 0);
@@ -59,6 +61,7 @@ public class ButtonManager : MonoBehaviour
         }
     }
 
+    //deactivate the download key button until the game is completed
     void Start(){
         KeyCodeButton.interactable = false;
 
@@ -67,6 +70,7 @@ public class ButtonManager : MonoBehaviour
     void Update()
 
     {
+        //activate the download key button if all the ligths are green
         if(isSolved())
         {
             KeyCodeButton.GetComponent<Image>().color = new Color (0, 255, 0);
@@ -74,6 +78,7 @@ public class ButtonManager : MonoBehaviour
 
 
         }
+        //reset periodically
         if(Time.time > nextReset){
             nextReset = Time.time + timer;
             leftLight.color = new Color (255, 255, 255);
