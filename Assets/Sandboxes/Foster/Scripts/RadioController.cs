@@ -21,7 +21,9 @@ public class RadioController : MonoBehaviour
 
     private bool gameActive = false;
 
+
     // Called by pressing the Download Key Button, activates message saying the exits are open
+
     public void KeyGetPress(){
         openWalls.SetActive(true);
     }
@@ -42,6 +44,7 @@ public class RadioController : MonoBehaviour
             near = false;
             pressE.SetActive(false);
             //this message is only active right after you complete the minigame and are still close
+
             openWalls.SetActive(false);
 
 

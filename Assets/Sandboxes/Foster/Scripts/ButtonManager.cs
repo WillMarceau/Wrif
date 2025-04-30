@@ -24,13 +24,16 @@ public class ButtonManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     //called by the key button, deactivates exit walls
+
     public void KeyButton()
     {
         NorthWall.SetActive(false);
         WestWall.SetActive(false);
         SouthWall.SetActive(false);
     }
+
     //these methods(L, C, R) activate the "lights" in the minigame
+
     public void left()
     {
         leftLight.color = new Color (0, 255, 0);
