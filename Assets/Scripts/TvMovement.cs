@@ -112,11 +112,9 @@ public class PlayerMovement : MonoBehaviour
         // set falling state
         if (airborn) 
         {
-            Debug.Log("true");
             ani.SetBool("IsAirborn", true);
         }
         else {
-            Debug.Log("false");
             ani.SetBool("IsAirborn", false);
         }
 
