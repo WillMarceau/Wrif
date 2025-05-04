@@ -138,6 +138,7 @@ public class PlayerMovement : MonoBehaviour
 
 
         // dont move unless input
+        // this is for movement forward
         if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
         {
             ani.SetBool("IsRunning", true);
@@ -155,14 +156,18 @@ public class PlayerMovement : MonoBehaviour
             if (sprintRequest) {
                 m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * (sprintIncrease * moveSpeed) * Time.fixedDeltaTime);
                 ani.SetBool("IsSprinting", true);
-
             }
+
             else {
                 m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
                 ani.SetBool("IsSprinting", false);
             }
             //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
             m_Rigidbody.MoveRotation (m_Rotation);
+        }
+
+        // turn in palce if only horizontal input
+        else if (Mathf.Abs(horizontal) > 0.01f) {
         }
 
         else {
@@ -172,8 +177,6 @@ public class PlayerMovement : MonoBehaviour
             currentVelocity.z = 0f;
             m_Rigidbody.linearVelocity = currentVelocity;
             ani.SetBool("IsRunning", false);
-           // m_Rigidbody.linearVelocity = Vector3.zero;
-            //m_Rigidbody.angularVelocity = Vector3.zero;
 
             if (Mathf.Abs(horizontal) > 0.1f)
             {
