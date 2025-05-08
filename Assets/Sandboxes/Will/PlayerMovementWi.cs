@@ -106,7 +106,7 @@ public class PlayerMovementWill : MonoBehaviour
         // dont move unless input
         if (m_Movement.sqrMagnitude > 0.01f)
         {
-            Debug.Log("true");
+            //Debug.Log("true");
             ani.SetBool("IsRunning", true);
             m_Movement.Normalize();
 
@@ -139,7 +139,7 @@ public class PlayerMovementWill : MonoBehaviour
             currentVelocity.z = 0f;
             m_Rigidbody.linearVelocity = currentVelocity;
             ani.SetBool("IsRunning", false);
-            Debug.Log("false");
+            //Debug.Log("false");
            // m_Rigidbody.linearVelocity = Vector3.zero;
             //m_Rigidbody.angularVelocity = Vector3.zero;
         }
