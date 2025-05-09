@@ -11,6 +11,7 @@ public class DroneDetection : Detection
     public float countdown;
     public float explosionRange;
     private bool isChasing = false;
+    public Light detectionLight;
     /*
     void Start()
     {
@@ -31,14 +32,12 @@ public class DroneDetection : Detection
                 Vector3 direction = (player.position - transform.position).normalized;
                 direction.y += 0.7f;
                 transform.position += direction * chaseSpeed * Time.deltaTime;
+
+                direction = (player.position - transform.position).normalized;
+                direction.y = -0.3f;
+                Quaternion rot = Quaternion.LookRotation(direction);
+                transform.rotation = rot;
             }
-
-            // explode
-            //else
-            //{
-                
-            //}
-
         }
     }
 
@@ -49,6 +48,7 @@ public class DroneDetection : Detection
         isChasing = true;
         patrolScript.enabled = false;
         player = playerInput.transform;
+        detectionLight.color = Color.red;
 
         StartCoroutine(ExplosionCountdown());
     }
@@ -84,16 +84,25 @@ public class DroneDetection : Detection
 
     IEnumerator ExplosionCountdown() 
     {
-        // countdown to explosion
-        /*
         float elapsed = 0f;
+        float blinkInterval = 1f;
+        float blinkTimer = 0f;
+        // countdown to explosion
 
         while (elapsed < countdown)
         {
             elapsed += Time.deltaTime;
+            blinkTimer += Time.deltaTime;
+
+            if (blinkTimer >= blinkInterval) 
+            {
+                detectionLight.enabled = !detectionLight.enabled;
+                blinkTimer = 0f;
+            }
+            yield return null;
         }
-        */
-        yield return new WaitForSeconds(countdown);
+        //yield return new WaitForSeconds(countdown);
+        detectionLight.enabled = true;
         this.Explode();
     }
 }
