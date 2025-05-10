@@ -12,6 +12,8 @@ public class DroneDetection : Detection
     public float explosionRange;
     private bool isChasing = false;
     public Light detectionLight;
+
+    private bool movement = true;
     /*
     void Start()
     {
@@ -22,7 +24,7 @@ public class DroneDetection : Detection
     // Update is called once per frame
     void Update()
     {
-        if (isChasing) {
+        if (isChasing && movement) {
             // calc distance
             float distance = Vector3.Distance(transform.position, player.position);
 
@@ -30,13 +32,34 @@ public class DroneDetection : Detection
             if (distance > stopDistance) 
             {
                 Vector3 direction = (player.position - transform.position).normalized;
-                direction.y += 0.7f;
+                direction.y += 0.5f;
                 transform.position += direction * chaseSpeed * Time.deltaTime;
 
                 direction = (player.position - transform.position).normalized;
                 direction.y = -0.3f;
                 Quaternion rot = Quaternion.LookRotation(direction);
                 transform.rotation = rot;
+            }
+
+            // just explode 
+            else
+            {
+                movement = false;
+                // stop timer
+                StopCoroutine(ExplosionCountdown());
+
+                // Start explosion
+                StartCoroutine(ExplosionWait());
+
+                /*Vector3 away = (transform.position - player.position).normalized;
+
+                away.y = 0.6f;
+
+
+                transform.position += away * 5 * Time.deltaTime;
+                */
+
+                //this.Explode();
             }
         }
     }
@@ -55,6 +78,9 @@ public class DroneDetection : Detection
 
     void Explode()
     {
+
+        // layer mask
+        LayerMask mask = ~LayerMask.GetMask("Enemy");
         // cancel movement
 
         // start animation
@@ -70,7 +96,7 @@ public class DroneDetection : Detection
             RaycastHit hit;
 
             // destroy if hit
-            if (Physics.Raycast(ray, out hit, explosionRange))
+            if (Physics.Raycast(ray, out hit, explosionRange, mask))
             {
                 if (hit.collider.transform == player) 
                 {
@@ -105,4 +131,24 @@ public class DroneDetection : Detection
         detectionLight.enabled = true;
         this.Explode();
     }
+
+    IEnumerator ExplosionWait() 
+    {
+        // start animation
+
+        // wait
+        yield return new WaitForSeconds(1f);
+
+        // explode
+        this.Explode();
+    }
+
+    // trigger explosion when coming into contact with player
+    //private void OnTriggerEnter(Collider other)
+    //{
+        //if (other.CompareTag("Player"))
+        //{
+            //this.Explode();
+        //}
+    //}
 }
