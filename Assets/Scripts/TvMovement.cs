@@ -151,8 +151,12 @@ public class PlayerMovement : MonoBehaviour
             // dont rotate unless actually moving
 
             // rotate to desired direction
+            // dont rotate unless horizontal input
+            if (Mathf.Abs(horizontal) > 0.01f) {
             Vector3 desiredDirection = Vector3.RotateTowards (transform.forward, m_Movement, turnSpeed * Time.fixedDeltaTime, 0f);
             m_Rotation = Quaternion.LookRotation(desiredDirection);
+            m_Rigidbody.MoveRotation(m_Rotation);
+            }
 
             // just moving here for now
             if (sprintRequest) {
@@ -167,7 +171,7 @@ public class PlayerMovement : MonoBehaviour
 
             
             //m_Rigidbody.MovePosition (m_Rigidbody.position + m_Movement * moveSpeed * Time.fixedDeltaTime);
-            m_Rigidbody.MoveRotation(m_Rotation);
+            //m_Rigidbody.MoveRotation(m_Rotation);
         }
 
         // turn in palce if only horizontal input
