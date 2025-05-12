@@ -151,4 +151,9 @@ public class DroneDetection : Detection
             //this.Explode();
         //}
     //}
+
+    public override void PlayerLost()
+    {
+        
+    }
 }

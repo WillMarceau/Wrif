@@ -24,6 +24,7 @@ public class EnemyObserver : MonoBehaviour
     void OnTriggerExit (Collider other) {
         if (other.transform == player) {
             inRange = false;
+            detectionBehavior?.PlayerLost();
         }
     }
 
@@ -32,13 +33,14 @@ public class EnemyObserver : MonoBehaviour
     {
         if (inRange) 
         {
+            LayerMask mask = ~LayerMask.GetMask("Enemy");
             // check line of sight 
             Vector3 direction = player.position - transform.position + Vector3.up;
             Ray ray = new Ray(transform.position, direction);
             RaycastHit raycastHit;
 
             // if in sight
-            if (Physics.Raycast(ray, out raycastHit)) 
+            if (Physics.Raycast(ray, out raycastHit, 100f, mask)) 
             {
                 if (raycastHit.collider.transform == player) 
                 {
