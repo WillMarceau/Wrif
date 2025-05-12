@@ -13,6 +13,9 @@ public class PlayerMovement : MonoBehaviour
     Rigidbody m_Rigidbody;
 
     // audio
+    public AudioClip jumpSound;
+    public AudioClip doubleJumpSound;
+    private AudioSource audioSource;
 
     // Movement
     private float horizontal;
@@ -35,6 +38,7 @@ public class PlayerMovement : MonoBehaviour
     {
         m_Rigidbody = GetComponent<Rigidbody>();
         ani = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
 
         extraJump = true;
         jumpRequest = false;
@@ -68,6 +72,9 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && canMove && isGrounded())
         {
             jumpRequest  = true;
+
+            //play jump sound effect
+            audioSource.PlayOneShot(jumpSound);
         }
         else if (Input.GetButtonDown("Jump") && canMove && !isGrounded() && extraJump)
         {
@@ -75,6 +82,10 @@ public class PlayerMovement : MonoBehaviour
             resetRequest = true;
             jumpRequest = true;
             extraJump = false;
+
+            //play double jump sound effect
+            audioSource.PlayOneShot(doubleJumpSound);
+
         }
     }
 
