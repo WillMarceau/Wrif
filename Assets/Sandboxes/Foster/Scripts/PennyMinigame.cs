@@ -106,8 +106,15 @@ public class PennyMinigame : MonoBehaviour
             if(slots[i].isOn()){
                 batteries[j].color = new Color (0.0f, 1.0f, 0.0f);
             }
+            else{
+                batteries[j].color = new Color (1.0f, 1.0f, 1.0f);
+
+            }
             if(slots[i].isStacked()){
                 batteries[p].color = new Color (0.0f, 1.0f, 0.0f);
+            }
+            else{
+                batteries[p].color = new Color (1.0f, 1.0f, 1.0f);
             }
             j = j + 1;
             p = p + 1;
