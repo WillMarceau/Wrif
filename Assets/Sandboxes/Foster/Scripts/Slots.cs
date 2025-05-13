@@ -62,12 +62,26 @@ public class Slots
 
     public void stack(){
         stacked = true;
-        battery.GetComponent<Image>().color = new Color (0.25f, 1f, 0.25f);
+        button2.GetComponent<Image>().color = new Color (0.25f, 1f, 0.25f);
 
     }
 
     public void unStack(){
         stacked = false;
+        button2.GetComponent<Image>().color = new Color (1.0f, 1.0f, 1.0f);
+
+    }
+
+    public void turnOn(){
+        on = true;
+        button1.GetComponent<Image>().color = new Color (0.25f, 1f, 0.25f);
+
+    }
+
+    public void turnOff(){
+        on = false;
+        button1.GetComponent<Image>().color = new Color (1.0f, 1.0f, 1.0f);
+
     }
 
     public void resetAll(){
@@ -93,6 +107,14 @@ public class Slots
     public void highlightHigh(){
         highlighetedHigh = true;
         button2.GetComponent<Image>().color = new Color (1.0f, 1.0f, 0.0f);
+    }
+
+    public void unHighlightHigh(){
+        highlighetedHigh = false;
+    }
+
+    public void unHighlightLow(){
+        highlighetedLow = false;
     }
 
 }

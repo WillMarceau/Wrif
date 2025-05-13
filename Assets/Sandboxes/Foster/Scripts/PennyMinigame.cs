@@ -34,6 +34,7 @@ public class PennyMinigame : MonoBehaviour
 
     //other buttons
     public Button scramble;
+    private Button selectedButton;
 
     //batteries 
     public Image battery1;
@@ -113,12 +114,25 @@ public class PennyMinigame : MonoBehaviour
 
     }
 
+private void resetHighlights(){
+    for(int i = 0; i < 12; i++){
+        if(slots[i].getHighlightedLow()){
+                slots[i].resetButton1();
+                slots[i].unHighlightLow();
+            }
+            if(slots[i].getHighlightedHigh()){
+                slots[i].unHighlightHigh();
+                slots[i].resetButton2();
+            }
+    }
+}
+
 private void searchRight(Slots slot, bool high){
         //search right
         int nextSlot = slot.getSlot() + 1;
         int buttonsJumped = 0;
         int count = 0;
-        while(buttonsJumped != 2){
+        while(buttonsJumped != 3){
             //debug info
             if (count > 100){
                 Debug.Log("Error in the buttons jumped- looped too much");
@@ -133,12 +147,12 @@ private void searchRight(Slots slot, bool high){
 
             if(slotToCheck.isOn()){
                 buttonsJumped ++;
-                if(buttonsJumped == 2){
+                if(buttonsJumped == 3){
                     break;
                 }
                 if(slotToCheck.isStacked()){
                     buttonsJumped ++;
-                    if(buttonsJumped == 2){
+                    if(buttonsJumped == 3){
                         break;
                     }
                 }
@@ -148,10 +162,10 @@ private void searchRight(Slots slot, bool high){
 
         int currentSlot = nextSlot;
 
-        if (!slots[currentSlot].isStacked()){
+        if (!slots[currentSlot].isStacked() && slots[currentSlot].isOn()){
             slots[currentSlot].highlightHigh();
         }
-        else{
+        else if(!slots[currentSlot].isOn() && !slots[currentSlot].isStacked()){
             slots[currentSlot].highlightLow();
         }
 
@@ -162,7 +176,7 @@ private void searchRight(Slots slot, bool high){
         int nextSlot = slot.getSlot() - 1;
         int buttonsJumped = 0;
         int count = 0;
-        while(buttonsJumped != 2){
+        while(buttonsJumped != 3){
             //debug info
             if (count > 100){
                 Debug.Log("Error in the buttons jumped- looped too much");
@@ -177,12 +191,12 @@ private void searchRight(Slots slot, bool high){
 
             if(slotToCheck.isOn()){
                 buttonsJumped ++;
-                if(buttonsJumped == 2){
+                if(buttonsJumped == 3){
                     break;
                 }
                 if(slotToCheck.isStacked()){
                     buttonsJumped ++;
-                    if(buttonsJumped == 2){
+                    if(buttonsJumped == 3){
                         break;
                     }
                 }
@@ -192,10 +206,10 @@ private void searchRight(Slots slot, bool high){
 
         int currentSlot = nextSlot;
 
-        if (!slots[currentSlot].isStacked()){
+        if (!slots[currentSlot].isStacked() && slots[currentSlot].isOn()){
             slots[currentSlot].highlightHigh();
         }
-        else{
+        else if(!slots[currentSlot].isOn() && !slots[currentSlot].isStacked()){
             slots[currentSlot].highlightLow();
         }
 
@@ -203,25 +217,62 @@ private void searchRight(Slots slot, bool high){
 
     public void ButtonClicked(Button button){
 
-        for(int i = 0; i < 12; i++){
-            if(slots[i].getHighlightedLow()){
-                    slots[i].resetButton1();
-                }
-                if(slots[i].getHighlightedHigh()){
-                    slots[i].resetButton2();
-                }
-        }
+        Debug.Log(selectedButton);
 
         ButtonMapping buttonMap = button.GetComponent<ButtonMapping>();
         bool high = buttonMap.high;
         Slots slot = slots[buttonMap.index];
-        if(slot.isOn() && !high){
-            searchLeft(slot, high);
-            searchRight(slot, high);
+        bool actionDone = false;
+
+
+        if(slot.getHighlightedHigh() && high){
+            slot.stack();
+            actionDone = true;
+            slot.unHighlightHigh();
+
         }
-        else if(slot.isStacked() && high){
-            searchLeft(slot, high);
-            searchRight(slot, high);
+        else if(slot.getHighlightedLow() && !high){
+            slot.turnOn();
+            slot.unHighlightLow();
+            actionDone = true;
+        }
+
+        if(selectedButton != null){
+
+            ButtonMapping selectedButtonMap = selectedButton.GetComponent<ButtonMapping>();
+            bool selectedHigh = selectedButtonMap.high;
+            Slots selectedSlot = slots[selectedButtonMap.index];    
+
+            if(actionDone){
+                if(selectedHigh){
+                    selectedSlot.unStack();
+                }
+                else{
+                    selectedSlot.turnOff();
+                }
+            }
+
+        }
+
+        resetHighlights();
+
+
+        if(!actionDone){
+            resetHighlights();
+            if(slot.isOn() && !high){
+                searchLeft(slot, high);
+                searchRight(slot, high);
+            }
+            else if(slot.isStacked() && high){
+                searchLeft(slot, high);
+                searchRight(slot, high);
+            }
+        }
+
+
+        selectedButton = button;
+        for(int i = 0; i < 12; i++){
+            Debug.Log($"Slot: {i}, \t is highlighted high: {slots[i].getHighlightedHigh()} \t is highlighted low: {slots[i].getHighlightedLow()}");
         }
     }
 
