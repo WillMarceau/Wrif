@@ -50,10 +50,12 @@ public class Slots
 
     public void resetButton1(){
         button1.GetComponent<Image>().color = new Color (0.0f, 1.0f, 0.0f);
+        on = true;
     }
 
     public void resetButton2(){
         button2.GetComponent<Image>().color = new Color (1f, 1f, 1f);
+        stacked = false;
     }
 
     public void resetBattery(){
@@ -88,7 +90,9 @@ public class Slots
         resetButton1();
         resetButton2();
         resetBattery();
-        unStack();
+        stacked = false;
+        unHighlightHigh();
+        unHighlightLow();
     }
 
     public bool isStacked(){

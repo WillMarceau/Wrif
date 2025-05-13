@@ -1,8 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class PennyMinigame : MonoBehaviour
 {
+
+    //text
+    public TextMeshProUGUI counterText;
+
+    //ints
+    private int textCounterNum = 6;
 
     //inner Buttons
     public Button inner1;
@@ -59,8 +66,6 @@ public class PennyMinigame : MonoBehaviour
 
     //bools
     private bool buttonsChanged;
-    private bool checkWin;
-
 
 
 
@@ -68,7 +73,9 @@ public class PennyMinigame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        checkWin = false;
+        scramble.interactable = false;
+        string counterString = textCounterNum.ToString();
+        counterText.text = counterString;
 
         outerArray = new Button[] {outer1, outer2, outer3, outer4, outer5, outer6, outer7, outer8, outer9, outer10, outer11, outer12};
         innerArray = new Button[] {inner1, inner2, inner3, inner4, inner5, inner6, inner7, inner8, inner9, inner10, inner11, inner12};
@@ -92,20 +99,36 @@ public class PennyMinigame : MonoBehaviour
         
     }
 
+    private void checkBatteries(){
+        int j = 0;
+        int p = 6;
+        for(int i = 6; i < 12; i++){
+            if(slots[i].isOn()){
+                batteries[j].color = new Color (0.0f, 1.0f, 0.0f);
+            }
+            if(slots[i].isStacked()){
+                batteries[p].color = new Color (0.0f, 1.0f, 0.0f);
+            }
+            j = j + 1;
+            p = p + 1;
+        }
+    }
+
     void reset(){
         for(int i = 0; i < 12; i++){
             slots[i].resetAll();
         }
+            textCounterNum = 6;
+            string counterString = textCounterNum.ToString();
+            counterText.text = counterString;
     }
 
 
 
     // Update is called once per frame
     void Update()
-    {
-        if(checkWin){
-
-        }
+    {   
+        checkBatteries();
         
         if(Input.GetKeyDown(KeyCode.X)){
             reset();
@@ -215,6 +238,47 @@ private void searchRight(Slots slot, bool high){
 
     }
 
+
+    public bool incremenetCounter(){
+        if (textCounterNum <= 1 && !checkForWin()){
+            textCounterNum = 6;
+            string counterString = textCounterNum.ToString();
+            counterText.text = counterString;
+            reset();
+            return true;
+        }
+        else{
+
+            textCounterNum --;
+            string counterString = textCounterNum.ToString();
+            counterText.text = counterString;
+            return false;
+        }
+    }
+
+    private bool checkForWin(){
+        int winningCounter = 0;
+        for(int i = 6; i < 12; i++){
+            if(slots[i].isOn() && slots[i].isStacked()){
+                winningCounter ++ ;
+            }
+        }
+
+        if (winningCounter >= 6){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    private void win(bool checkWin){
+        if(checkWin){
+            scramble.GetComponent<Image>().color = new Color (0, 255, 0);
+            scramble.interactable = true;
+        }
+    }
+
     public void ButtonClicked(Button button){
 
         Debug.Log(selectedButton);
@@ -229,12 +293,21 @@ private void searchRight(Slots slot, bool high){
             slot.stack();
             actionDone = true;
             slot.unHighlightHigh();
+            win(checkForWin());
+            if(incremenetCounter()){
+                return;
+            }
 
         }
         else if(slot.getHighlightedLow() && !high){
             slot.turnOn();
             slot.unHighlightLow();
             actionDone = true;
+            win(checkForWin());
+            if (incremenetCounter()){
+                return;
+            }
+
         }
 
         if(selectedButton != null){
@@ -259,7 +332,7 @@ private void searchRight(Slots slot, bool high){
 
         if(!actionDone){
             resetHighlights();
-            if(slot.isOn() && !high){
+            if(slot.isOn() && !high && !slot.isStacked()){
                 searchLeft(slot, high);
                 searchRight(slot, high);
             }

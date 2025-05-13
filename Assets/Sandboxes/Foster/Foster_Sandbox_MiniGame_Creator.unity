@@ -646,8 +646,8 @@ RectTransform:
   - {fileID: 407340724}
   - {fileID: 1361354096}
   - {fileID: 1680811815}
-  - {fileID: 1884591545}
   - {fileID: 1211118420}
+  - {fileID: 1884591545}
   m_Father: {fileID: 1032960129}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -891,6 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71111dea244854053a7a331664a0e6c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  counterText: {fileID: 2009736760}
   inner1: {fileID: 1506950913}
   inner2: {fileID: 1648252772}
   inner3: {fileID: 1083331183}
@@ -926,8 +927,8 @@ MonoBehaviour:
   battery8: {fileID: 407340725}
   battery9: {fileID: 1361354097}
   battery10: {fileID: 1680811816}
-  battery11: {fileID: 1884591546}
-  battery12: {fileID: 1211118421}
+  battery11: {fileID: 1211118421}
+  battery12: {fileID: 1884591546}
 --- !u!4 &412675311
 Transform:
   m_ObjectHideFlags: 0
@@ -1362,9 +1363,9 @@ MonoBehaviour:
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_PressedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
+    m_DisabledColor: {r: 1, g: 1, b: 1, a: 1}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
   m_SpriteState:
@@ -3498,7 +3499,7 @@ GameObject:
   - component: {fileID: 1211118422}
   - component: {fileID: 1211118421}
   m_Layer: 5
-  m_Name: Battery (16)
+  m_Name: Battery (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5673,7 +5674,7 @@ GameObject:
   - component: {fileID: 1884591547}
   - component: {fileID: 1884591546}
   m_Layer: 5
-  m_Name: Battery (15)
+  m_Name: Battery (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
