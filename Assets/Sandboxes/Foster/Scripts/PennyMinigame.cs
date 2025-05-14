@@ -11,6 +11,9 @@ public class PennyMinigame : MonoBehaviour
     //ints
     private int textCounterNum = 6;
 
+    //colors
+    private Color startColor;
+
     //inner Buttons
     public Button inner1;
     public Button inner2;
@@ -76,6 +79,8 @@ public class PennyMinigame : MonoBehaviour
         scramble.interactable = false;
         string counterString = textCounterNum.ToString();
         counterText.text = counterString;
+        startColor = counterText.color;
+
 
         outerArray = new Button[] {outer1, outer2, outer3, outer4, outer5, outer6, outer7, outer8, outer9, outer10, outer11, outer12};
         innerArray = new Button[] {inner1, inner2, inner3, inner4, inner5, inner6, inner7, inner8, inner9, inner10, inner11, inner12};
@@ -130,6 +135,7 @@ public class PennyMinigame : MonoBehaviour
             counterText.text = counterString;
             scramble.GetComponent<Image>().color = new Color (1.0f, 1.0f, 1.0f);
             scramble.interactable = false;
+            counterText.color = startColor;
     }
 
 
@@ -262,6 +268,18 @@ private void searchRight(Slots slot, bool high){
             textCounterNum --;
             string counterString = textCounterNum.ToString();
             counterText.text = counterString;
+            Color currentColor = counterText.color;
+
+            if(textCounterNum <= 3){
+
+                Color newColor = new Color (currentColor.r, currentColor.g - 0.33f, currentColor.b);
+                counterText.color = newColor;
+            }
+            else{
+
+                Color newColor = new Color (currentColor.r + 0.5f, currentColor.g, currentColor.b);
+                counterText.color = newColor;
+            }
             win(won);
             return false;
         }
