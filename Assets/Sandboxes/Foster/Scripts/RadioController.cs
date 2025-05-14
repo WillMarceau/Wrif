@@ -76,6 +76,7 @@ public class RadioController : MonoBehaviour
 
             }
             else if(!gameActive && near){
+                Debug.Log("Player Near");
                 pressE.SetActive(true);
 
             }
