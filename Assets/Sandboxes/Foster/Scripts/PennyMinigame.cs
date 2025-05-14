@@ -128,6 +128,8 @@ public class PennyMinigame : MonoBehaviour
             textCounterNum = 6;
             string counterString = textCounterNum.ToString();
             counterText.text = counterString;
+            scramble.GetComponent<Image>().color = new Color (1.0f, 1.0f, 1.0f);
+            scramble.interactable = false;
     }
 
 
@@ -247,7 +249,8 @@ private void searchRight(Slots slot, bool high){
 
 
     public bool incremenetCounter(){
-        if (textCounterNum <= 1 && !checkForWin()){
+        bool won = checkForWin();
+        if (textCounterNum <= 1 && !won){
             textCounterNum = 6;
             string counterString = textCounterNum.ToString();
             counterText.text = counterString;
@@ -259,6 +262,7 @@ private void searchRight(Slots slot, bool high){
             textCounterNum --;
             string counterString = textCounterNum.ToString();
             counterText.text = counterString;
+            win(won);
             return false;
         }
     }
@@ -299,24 +303,6 @@ private void searchRight(Slots slot, bool high){
         if(slot.getHighlightedHigh() && high){
             slot.stack();
             actionDone = true;
-            slot.unHighlightHigh();
-            win(checkForWin());
-            if(incremenetCounter()){
-                return;
-            }
-
-        }
-        else if(slot.getHighlightedLow() && !high){
-            slot.turnOn();
-            slot.unHighlightLow();
-            actionDone = true;
-            win(checkForWin());
-            if (incremenetCounter()){
-                return;
-            }
-
-        }
-
         if(selectedButton != null){
 
             ButtonMapping selectedButtonMap = selectedButton.GetComponent<ButtonMapping>();
@@ -334,6 +320,41 @@ private void searchRight(Slots slot, bool high){
 
         }
 
+            slot.unHighlightHigh();
+            if(incremenetCounter()){
+                return;
+            }
+
+        }
+        else if(slot.getHighlightedLow() && !high){
+            slot.turnOn();
+            slot.unHighlightLow();
+            actionDone = true;
+        if(selectedButton != null){
+
+            ButtonMapping selectedButtonMap = selectedButton.GetComponent<ButtonMapping>();
+            bool selectedHigh = selectedButtonMap.high;
+            Slots selectedSlot = slots[selectedButtonMap.index];    
+
+            if(actionDone){
+                if(selectedHigh){
+                    selectedSlot.unStack();
+                }
+                else{
+                    selectedSlot.turnOff();
+                }
+            }
+
+        }
+
+            if (incremenetCounter()){
+                return;
+            }
+
+        }
+
+
+        win(checkForWin());
         resetHighlights();
 
 
