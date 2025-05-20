@@ -4588,6 +4588,52 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 1.02, z: 0}
+--- !u!136 &747082730
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747082719}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.4
+  m_Height: 2.1
+  m_Direction: 0
+  m_Center: {x: 0, y: 1, z: 0}
+--- !u!136 &747082731
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747082719}
+  m_Material: {fileID: 13400000, guid: f46163fa7b051435dafc4ea6dca05c4d, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Height: 2
+  m_Direction: 0
+  m_Center: {x: 0, y: 1.02, z: 0}
 --- !u!1 &766456714 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7945238253543376948, guid: a6098ce78f6ac4e94b44bbeb13759854, type: 3}
@@ -7822,6 +7868,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747082726}
+    - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747082730}
+    - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747082731}
   m_SourcePrefab: {fileID: 100100000, guid: 9862610e9547aef40910fce293c17568, type: 3}
 --- !u!1 &1966552460
 GameObject:

@@ -29,9 +29,16 @@ public class PlayerMovement : MonoBehaviour
     private bool resetRequest;
     private bool sprintRequest;
     private bool airborn;
+    private bool slideRequest;
     public Transform cameraTransform;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
+
+    // coliders
+    public CapsuleCollider normalCollider;
+    public CapsuleCollider normalFriction;
+    public CapsuleCollider slidingCollider;
+    public CapsuleCollider slidingFriction;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -44,6 +51,7 @@ public class PlayerMovement : MonoBehaviour
         jumpRequest = false;
         sprintRequest = false;
         airborn = false;
+        slideRequest = false;
     }
 
     // Update is called once per frame
@@ -67,6 +75,11 @@ public class PlayerMovement : MonoBehaviour
         }
         else {
             sprintRequest = false;
+        }
+
+        // what happens if you slide and jump at the same time
+        if (Input.GetKeyDown(KeyCode.C) && isGrounded()) {
+            slideRequest = true;
         }
 
         if (Input.GetButtonDown("Jump") && canMove && isGrounded())
@@ -119,9 +132,17 @@ public class PlayerMovement : MonoBehaviour
             Jump();
             jumpRequest = false;
         }
+        if (slideRequest) {
+            // activate animation and call slide
+            ani.SetBool("IsSliding", true);
+
+            Slide();
+
+            // change colliders
+        }
 
         // set falling state
-        if (airborn) 
+        if (airborn && !slideRequest) 
         {
             ani.SetBool("IsAirborn", true);
         }
@@ -237,5 +258,28 @@ public class PlayerMovement : MonoBehaviour
         return Physics.Raycast(transform.position, Vector3.down, 0.3f);
     }
 
+    private void Slide()
+    // alters collision to fit slide animation
+    {
+        normalCollider.enabled = false;
+        normalFriction.enabled = false;
 
+        slidingCollider.enabled = true;
+        slidingFriction.enabled = true;
+
+    }
+
+    public void EndSlide()
+    {
+        ani.SetBool("IsSliding", false);
+
+        // reset colliders
+        normalCollider.enabled = true;
+        normalFriction.enabled = true;
+
+        slidingCollider.enabled = false;
+        slidingFriction.enabled = false;
+
+        slideRequest = false;
+    }
 }
