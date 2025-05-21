@@ -4413,6 +4413,10 @@ MonoBehaviour:
   moveSpeed: 2.5
   jumpForce: 2.75
   cameraTransform: {fileID: 2050607392}
+  normalCollider: {fileID: 747082722}
+  normalFriction: {fileID: 747082728}
+  slidingCollider: {fileID: 747082730}
+  slidingFriction: {fileID: 747082731}
 --- !u!54 &747082721
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5690,6 +5694,10 @@ MonoBehaviour:
   moveSpeed: 2.5
   jumpForce: 2.75
   cameraTransform: {fileID: 2050607392}
+  normalCollider: {fileID: 0}
+  normalFriction: {fileID: 0}
+  slidingCollider: {fileID: 0}
+  slidingFriction: {fileID: 0}
 --- !u!1001 &1241176015
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7864,10 +7872,10 @@ PrefabInstance:
       addedObject: {fileID: 747082721}
     - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 747082720}
+      addedObject: {fileID: 747082726}
     - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 747082726}
+      addedObject: {fileID: 747082720}
     - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747082730}
