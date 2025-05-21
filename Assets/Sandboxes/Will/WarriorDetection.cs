@@ -6,12 +6,13 @@ public class WarriorDetection : Detection
 
     public float turnSpeed;
     private float shootTimer;
-
     public Light detectionLight;
-
     private bool isAttacking;
     public float shootAngle;
     public float shootCooldown;
+    public Light spotLight;
+    public GameObject muzzleFlash;
+    public Transform shootPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -52,6 +53,7 @@ public class WarriorDetection : Detection
         player = playerInput.transform;
         detectionLight.color = Color.red;
         //Debug.Log("player inside");
+        spotLight.color = Color.red;
     }
 
     public override void PlayerLost()
@@ -60,12 +62,18 @@ public class WarriorDetection : Detection
         isAttacking = false;
         player = null;
         detectionLight.color = Color.green;
+        spotLight.color = Color.green;
         shootTimer = 0.5f;
+
     }
 
     private void Fire()
     {
         // play animation
+        GameObject flash = Instantiate(muzzleFlash, shootPoint.position, shootPoint.rotation);
+        flash.transform.SetParent(shootPoint);
+
+        Destroy(flash, 0.4f);
         // play sound
 
         // check line of sight
