@@ -11,6 +11,8 @@ public class WarriorDetection : Detection
     public float shootAngle;
     public float shootCooldown;
     public Light spotLight;
+    public GameObject muzzleFlash;
+    public Transform shootPoint;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
@@ -68,6 +70,10 @@ public class WarriorDetection : Detection
     private void Fire()
     {
         // play animation
+        GameObject flash = Instantiate(muzzleFlash, shootPoint.position, shootPoint.rotation);
+        flash.transform.SetParent(shootPoint);
+
+        Destroy(flash, 0.4f);
         // play sound
 
         // check line of sight
