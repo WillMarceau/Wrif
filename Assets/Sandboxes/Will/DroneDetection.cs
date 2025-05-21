@@ -5,6 +5,7 @@ public class DroneDetection : Detection
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
     public Transform player;
+    public GameObject explosionFab;
     public float stopDistance;
     public float chaseSpeed;
     public Patrol patrolScript;
@@ -12,6 +13,8 @@ public class DroneDetection : Detection
     public float explosionRange;
     private bool isChasing = false;
     public Light detectionLight;
+
+    public Light spotLight;
 
     private bool movement = true;
     /*
@@ -72,12 +75,16 @@ public class DroneDetection : Detection
         patrolScript.enabled = false;
         player = playerInput.transform;
         detectionLight.color = Color.red;
+        spotLight.color = Color.red;
 
         StartCoroutine(ExplosionCountdown());
     }
 
     void Explode()
     {
+
+        GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
+
 
         // layer mask
         LayerMask mask = ~LayerMask.GetMask("Enemy");
@@ -104,7 +111,10 @@ public class DroneDetection : Detection
                 }
             }
         }
+        // play explosion
+        //GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
         Destroy(gameObject);
+
 
     }
 
@@ -129,6 +139,9 @@ public class DroneDetection : Detection
         }
         //yield return new WaitForSeconds(countdown);
         detectionLight.enabled = true;
+
+        // wait a sec
+        yield return new WaitForSeconds(1f);
         this.Explode();
     }
 
