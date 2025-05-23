@@ -21,7 +21,6 @@ public class PlayerMovement : MonoBehaviour
     private float horizontal;
     public float sprintIncrease = 2f;
     private float vertical;
-    public float turnSpeed = 20f;
     public float moveSpeed = 5f;
     public float jumpForce = 2f;
     private bool jumpRequest;
@@ -31,8 +30,13 @@ public class PlayerMovement : MonoBehaviour
     private bool airborn;
     private bool slideRequest;
     public Transform cameraTransform;
+
+    //For keyboard camera
+    /*
+    public float turnSpeed = 20f;
     Vector3 m_Movement;
     Quaternion m_Rotation = Quaternion.identity;
+    */
 
     // coliders
     public CapsuleCollider normalCollider;
@@ -101,7 +105,79 @@ public class PlayerMovement : MonoBehaviour
 
         }
     }
+    
+    void FixedUpdate()
+    {
+        if (!canMove) return;
 
+        // === HANDLE JUMPING ===
+        if (jumpRequest)
+        {
+            if (resetRequest)
+            {
+                resetRequest = false;
+                Vector3 currentVel = m_Rigidbody.linearVelocity;
+                currentVel.y = 0f;
+                m_Rigidbody.linearVelocity = currentVel;
+                Jump();
+                ani.SetTrigger("IsDouble");
+            }
+            else
+            {
+                Jump();
+                ani.SetTrigger("IsJumping");
+            }
+
+            jumpRequest = false;
+        }
+
+        // === HANDLE SLIDING ===
+        if (slideRequest)
+        {
+            ani.SetBool("IsSliding", true);
+            Slide();
+        }
+
+        // === SET FALLING STATE ===
+        ani.SetBool("IsAirborn", airborn && !slideRequest);
+
+        // === HANDLE CAMERA-RELATIVE MOVEMENT ===
+        Vector3 inputDirection = new Vector3(horizontal, 0f, vertical).normalized;
+
+        if (inputDirection.magnitude >= 0.1f)
+        {
+            Vector3 cameraForward = cameraTransform.forward;
+            Vector3 cameraRight = cameraTransform.right;
+
+            cameraForward.y = 0f;
+            cameraRight.y = 0f;
+            cameraForward.Normalize();
+            cameraRight.Normalize();
+
+            Vector3 moveDirection = cameraForward * vertical + cameraRight * horizontal;
+            moveDirection.Normalize();
+
+            float currentSpeed = sprintRequest ? moveSpeed * sprintIncrease : moveSpeed;
+            m_Rigidbody.MovePosition(m_Rigidbody.position + moveDirection * currentSpeed * Time.fixedDeltaTime);
+
+            // rotate toward movement direction
+            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 0.15f);
+
+            ani.SetBool("IsRunning", true);
+            ani.SetBool("IsSprinting", sprintRequest);
+        }
+        else
+        {
+            ani.SetBool("IsRunning", false);
+            ani.SetBool("IsSprinting", false);
+        }
+
+    m_Rigidbody.angularVelocity = Vector3.zero;
+    }
+
+    // FixedUpdate for fixed camera
+    /*
     void FixedUpdate() {
         // check for movement ablility
 
@@ -159,14 +235,14 @@ public class PlayerMovement : MonoBehaviour
         m_Movement = (cameraForward * vertical + cameraRight * horizontal);
 
 
-/*if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
-{
-    // rotate toward input movement
-    Vector3 desiredDirection = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.fixedDeltaTime, 0f);
-    m_Rotation = Quaternion.LookRotation(desiredDirection);
-    m_Rigidbody.MoveRotation(m_Rotation);
-}
-*/
+        if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
+        {
+            // rotate toward input movement
+            Vector3 desiredDirection = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.fixedDeltaTime, 0f);
+            m_Rotation = Quaternion.LookRotation(desiredDirection);
+            m_Rigidbody.MoveRotation(m_Rotation);
+        }
+
 
 
         // dont move unless input
@@ -242,6 +318,7 @@ public class PlayerMovement : MonoBehaviour
         //Debug.Log(m_Rigidbody.rotation);
         m_Rigidbody.angularVelocity = Vector3.zero;
     }
+    */
 
     // move with animation
     // just moving for now
