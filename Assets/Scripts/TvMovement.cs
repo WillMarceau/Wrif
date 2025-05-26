@@ -138,6 +138,16 @@ public class PlayerMovement : MonoBehaviour
             Slide();
         }
 
+        if (airborn && !slideRequest)
+        {
+            ani.SetBool("IsAirborn", true);
+        }
+        else
+        {
+            ani.SetBool("IsAirborn", false);
+        }
+
+
         Vector3 inputDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
         if (inputDirection.magnitude >= 0.1f)
