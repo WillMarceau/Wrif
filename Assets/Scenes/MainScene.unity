@@ -4331,7 +4331,7 @@ MonoBehaviour:
   doubleJumpSound: {fileID: 8300000, guid: 82068008eeda9472db932c326194a7b1, type: 3}
   sprintIncrease: 2.5
   moveSpeed: 2.5
-  jumpForce: 4
+  jumpForce: 6
   cameraTransform: {fileID: 399789672}
   normalCollider: {fileID: 747082722}
   normalFriction: {fileID: 747082728}
@@ -6542,7 +6542,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: d4348bb10d6504bc69af0795520e6ef5, type: 3}
       propertyPath: m_LocalScale.x
-      value: 150
+      value: 105
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: d4348bb10d6504bc69af0795520e6ef5, type: 3}
       propertyPath: m_LocalScale.y
