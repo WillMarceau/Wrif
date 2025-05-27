@@ -4331,11 +4331,11 @@ MonoBehaviour:
   doubleJumpSound: {fileID: 8300000, guid: 82068008eeda9472db932c326194a7b1, type: 3}
   sprintIncrease: 2.5
   moveSpeed: 2.5
-  jumpForce: 6
+  jumpForce: 5.5
   cameraTransform: {fileID: 399789672}
   normalCollider: {fileID: 747082722}
   normalFriction: {fileID: 747082728}
-  slidingCollider: {fileID: 747082730}
+  slidingCollider: {fileID: 747082733}
   slidingFriction: {fileID: 747082731}
 --- !u!54 &747082721
 Rigidbody:
@@ -4558,6 +4558,27 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 0
   m_Center: {x: 0, y: 1.02, z: 0}
+--- !u!65 &747082733
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747082719}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 2.1, y: 0.9, z: 0.7}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1 &766456714 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7945238253543376948, guid: a6098ce78f6ac4e94b44bbeb13759854, type: 3}
@@ -7785,6 +7806,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: working5_10_2025
       objectReference: {fileID: 0}
+    - target: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -7813,6 +7838,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
       insertIndex: -1
       addedObject: {fileID: 747082731}
+    - targetCorrespondingSourceObject: {fileID: 7576036046699727481, guid: 9862610e9547aef40910fce293c17568, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 747082733}
   m_SourcePrefab: {fileID: 100100000, guid: 9862610e9547aef40910fce293c17568, type: 3}
 --- !u!1 &1966552460
 GameObject:

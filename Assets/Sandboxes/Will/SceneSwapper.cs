@@ -8,4 +8,14 @@ public class SceneSwapper : MonoBehaviour
         SceneManager.LoadScene("MainScene");
     }
 
+    public void LoadTitle()
+    {
+        SceneManager.LoadScene("TitleScene");
+    }
+
+    public void LoadTut()
+    {
+        SceneManager.LoadScene("TutorialScene");
+    }
+
 }

@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     // coliders
     public CapsuleCollider normalCollider;
     public CapsuleCollider normalFriction;
-    public CapsuleCollider slidingCollider;
+    public BoxCollider slidingCollider;
     public CapsuleCollider slidingFriction;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -66,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
         // GetAxisRaw removes smoothing, allowing for instant stops
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
+        Vector3 inputDirection = new Vector3(horizontal, 0f, vertical).normalized;
 
         // not very efficent I dont think
         if (isGrounded()) {
@@ -84,18 +85,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // what happens if you slide and jump at the same time
-        if (Input.GetKeyDown(KeyCode.C) && isGrounded()) {
+        if (Input.GetKeyDown(KeyCode.C) && isGrounded() && (inputDirection.magnitude >= 0.1f)) {
             slideRequest = true;
         }
 
-        if (Input.GetButtonDown("Jump") && canMove && isGrounded())
+        else if (Input.GetButtonDown("Jump") && canMove && isGrounded() && !slideRequest)
         {
             jumpRequest  = true;
 
             //play jump sound effect
             audioSource.PlayOneShot(jumpSound);
         }
-        else if (Input.GetButtonDown("Jump") && canMove && !isGrounded() && extraJump)
+        else if (Input.GetButtonDown("Jump") && canMove && !isGrounded() && extraJump && !slideRequest) 
         {
             // reset vertical velocity
             resetRequest = true;
@@ -132,11 +133,13 @@ public class PlayerMovement : MonoBehaviour
             jumpRequest = false;
         }
 
+        /*
         if (slideRequest)
         {
             ani.SetBool("IsSliding", true);
             Slide();
         }
+        */
 
         if (airborn && !slideRequest)
         {
@@ -152,6 +155,12 @@ public class PlayerMovement : MonoBehaviour
 
         if (inputDirection.magnitude >= 0.1f)
         {
+            if (slideRequest)
+        {
+            ani.SetBool("IsSliding", true);
+            Slide();
+        }
+
             // Get camera directions
             Vector3 cameraForward = cameraTransform.forward;
             Vector3 cameraRight = cameraTransform.right;
@@ -363,7 +372,7 @@ public class PlayerMovement : MonoBehaviour
         normalFriction.enabled = false;
 
         slidingCollider.enabled = true;
-        slidingFriction.enabled = true;
+        //slidingFriction.enabled = true;
 
     }
 
@@ -376,7 +385,7 @@ public class PlayerMovement : MonoBehaviour
         normalFriction.enabled = true;
 
         slidingCollider.enabled = false;
-        slidingFriction.enabled = false;
+        //slidingFriction.enabled = false;
 
         slideRequest = false;
     }
