@@ -7526,7 +7526,7 @@ MonoBehaviour:
   canMove: 1
   jumpSound: {fileID: 8300000, guid: 8800e692db52c4ad9bac9f80ff5a5f3e, type: 3}
   doubleJumpSound: {fileID: 8300000, guid: 82068008eeda9472db932c326194a7b1, type: 3}
-  sprintIncrease: 2
+  sprintIncrease: 2.25
   moveSpeed: 2
   jumpForce: 5
   cameraTransform: {fileID: 399789672}
