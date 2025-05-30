@@ -91,7 +91,8 @@ public class WarriorDetection : Detection
                 // apply damage
 
                 // right now just destroy
-                Destroy(player.gameObject);
+                Death deathScript = player.GetComponent<Death>();
+                deathScript.Die();
             }
         }
 

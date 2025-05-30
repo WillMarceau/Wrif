@@ -18,4 +18,9 @@ public class SceneSwapper : MonoBehaviour
         SceneManager.LoadScene("TutorialScene");
     }
 
+    public void LoadWin()
+    {
+        SceneManager.LoadScene("WinScene");
+    }
+
 }
