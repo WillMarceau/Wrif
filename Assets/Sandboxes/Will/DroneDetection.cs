@@ -107,7 +107,10 @@ public class DroneDetection : Detection
             {
                 if (hit.collider.transform == player) 
                 {
-                    Destroy(player.gameObject);
+                    // reload scene for now
+                    Death deathScript = player.GetComponent<Death>();
+                    deathScript.Die();
+                    //Destroy(player.gameObject);
                 }
             }
         }
