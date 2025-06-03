@@ -9,15 +9,17 @@ public class DroneSpawner : MonoBehaviour
     //Patrol Path
     public Transform[] patrolWaypoints;
 
-    private GameObject currentDrone;
+    //private GameObject currentDrone;
+
+    public GameObject existingDrone;
 
     public void Spawn()
     {
 
         // if current drone is not destroyed destroy it
-        if (currentDrone != null)
+        if (existingDrone != null)
         {
-            Destroy(currentDrone);
+            Destroy(existingDrone);
         }
 
         if (patrolWaypoints.Length == 0)
@@ -27,24 +29,24 @@ public class DroneSpawner : MonoBehaviour
 
         // Spawn new drone at the first waypoint
         Transform firstWaypoint = patrolWaypoints[0];
-        currentDrone = Instantiate(dronePrefab, firstWaypoint.position, firstWaypoint.rotation);
+        existingDrone = Instantiate(dronePrefab, firstWaypoint.position, firstWaypoint.rotation);
 
         // Assign Waypoints and player
-        Patrol patrolScript = currentDrone.GetComponent<Patrol>();
+        Patrol patrolScript = existingDrone.GetComponent<Patrol>();
         if (patrolScript != null)
         {
-            patrolScript.PatrolPoints = patrolWaypoints; 
+            patrolScript.patrolPoints = patrolWaypoints; 
         }
-        DroneDetection detectionScript = currentDrone.GetComponent<DroneDetection>();
+        DroneDetection detectionScript = existingDrone.GetComponent<DroneDetection>();
         if (detectionScript != null)
         {
-            detectionScript.Player = player;
+            detectionScript.player = player;
         }
 
-        EnemyObserver observerScript = currentDrone.GetComponentInChildren<EnemyObserver>();
+        EnemyObserver observerScript = existingDrone.GetComponentInChildren<EnemyObserver>();
         if (observerScript != null)
         {
-            observerScript.Player = player;
+            observerScript.player = player;
         }
     }
 
