@@ -4,9 +4,8 @@ using System.Collections;
 
 public class Death : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is create
-
-    // Update is called once per frame
+    public Transform spawnPoint;
+    public DroneManager droneManager;
 
     public void Die()
     {
@@ -18,7 +17,12 @@ public class Death : MonoBehaviour
     private IEnumerator Dying()
     {
         yield return new WaitForSeconds(0.3f);
-        Destroy(gameObject);
-        SceneManager.LoadScene("MainScene");
+        //Destroy(gameObject);
+        // move player to checkpoint
+        transform.position = spawnPoint.transform.position;
+        // respawn all drones
+        droneManager.RespawnAll();
+
+        //SceneManager.LoadScene("MainScene");
     }
 }
