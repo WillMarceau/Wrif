@@ -10186,6 +10186,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73f9d853410f74a029ce66060b731f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capsule: {fileID: 0}
+  frictionCapsule: {fileID: 0}
+  box: {fileID: 0}
+  spawnPoint: {fileID: 0}
+  droneManager: {fileID: 0}
+  deathScreen: {fileID: 0}
 --- !u!1 &748796155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7429478390321631588, guid: f7f4142f69b0cc34ba67e30d1376d20c, type: 3}
@@ -14885,7 +14891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: bc9773c775d98153b91b9a7c25ecccab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: bc9773c775d98153b91b9a7c25ecccab, type: 3}
       propertyPath: m_LocalScale.y
@@ -17758,7 +17764,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100002, guid: bc9773c775d98153b91b9a7c25ecccab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400002, guid: bc9773c775d98153b91b9a7c25ecccab, type: 3}
       propertyPath: m_LocalScale.x
@@ -24575,7 +24581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 100000, guid: 0a93ad411971fe341b9a36926aeb22ad, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 0a93ad411971fe341b9a36926aeb22ad, type: 3}
       propertyPath: m_LocalScale.x
