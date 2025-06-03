@@ -4,7 +4,7 @@ public class EnemyObserver : MonoBehaviour
 {
     public Transform player;
 
-    bool inRange;
+    public bool inRange;
     private Detection detectionBehavior;
 
     public Detection detectionBehaviorScript;
