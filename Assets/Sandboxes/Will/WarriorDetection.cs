@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class WarriorDetection : Detection
 {
@@ -13,12 +14,14 @@ public class WarriorDetection : Detection
     public Light spotLight;
     public GameObject muzzleFlash;
     public Transform shootPoint;
+    EnemyObserver observerScript;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Start()
     {
         shootTimer = 0.5f;
+        observerScript = GetComponentInChildren<EnemyObserver>();
     }
     
 
@@ -93,10 +96,28 @@ public class WarriorDetection : Detection
                 // right now just destroy
                 Death deathScript = player.GetComponent<Death>();
                 deathScript.Die();
+
+                StartCoroutine(ResetAfterWait(1f));
+
             }
         }
+    }
 
+    private IEnumerator ResetAfterWait(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        isAttacking = false;
+        player = null;
+        detectionLight.color = Color.green;
+        spotLight.color = Color.green;
+        shootTimer = 0.5f;
+
+        if (observerScript != null)
+        {
+            observerScript.inRange = false;
+        }
 
     }
+
 
 }
