@@ -305,8 +305,8 @@ MonoBehaviour:
   tile: {fileID: 1374504640661494541, guid: 32510323a139747e8a122fd58cf3b4ab, type: 3}
   camera: {fileID: 178908661}
   canvas: {fileID: 880445306}
-  timer: 3
-  resetTimer: 2.9
+  timer: 1
+  resetTimer: 0.9
 --- !u!1 &507773577
 GameObject:
   m_ObjectHideFlags: 0
