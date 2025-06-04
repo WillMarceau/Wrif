@@ -7343,7 +7343,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &414244500
 Transform:
   m_ObjectHideFlags: 0
@@ -11858,6 +11858,10 @@ PrefabInstance:
       propertyPath: droneManager
       value: 
       objectReference: {fileID: 1931474988}
+    - target: {fileID: 2745321890345818029, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 5321638579898491774, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
       propertyPath: tp1
       value: 
@@ -15526,8 +15530,8 @@ Transform:
   m_GameObject: {fileID: 968114655}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7010574, y: -0.09229599, z: 0.09229599, w: 0.7010574}
-  m_LocalPosition: {x: -57.39, y: 10.26, z: -23.66}
-  m_LocalScale: {x: 1, y: 6, z: 4}
+  m_LocalPosition: {x: -57.39, y: 10.07, z: -23.66}
+  m_LocalScale: {x: 1, y: 6, z: 3.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 362930958}
