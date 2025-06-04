@@ -224,7 +224,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: 3ae006929901a9e45a389290375f5724, type: 3}
   m_Resource: {fileID: 8300000, guid: 3ae006929901a9e45a389290375f5724, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -3201,6 +3201,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1918848042}
+    - target: {fileID: 6663071376743147395, guid: 633919ddd488e41b3b95631cff1862a0, type: 3}
+      propertyPath: m_PlayOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8481679819748440372, guid: 633919ddd488e41b3b95631cff1862a0, type: 3}
       propertyPath: 'patrolPoints.Array.data[0]'
       value: 
@@ -28245,6 +28249,10 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1918848042}
+    - target: {fileID: 502511370957634654, guid: 0f2b73d46deaa4e90967ccf20b3af4e6, type: 3}
+      propertyPath: fireClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 4b4dd7245f6104c8c8eb07ccf6b386ed, type: 3}
     - target: {fileID: 6572173025264031606, guid: 0f2b73d46deaa4e90967ccf20b3af4e6, type: 3}
       propertyPath: player
       value: 

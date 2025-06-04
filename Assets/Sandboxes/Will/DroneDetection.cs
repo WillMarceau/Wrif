@@ -17,12 +17,19 @@ public class DroneDetection : Detection
     public Light spotLight;
 
     private bool movement = true;
-    /*
+    public AudioClip detectedSfx;
+    public AudioClip explosionSfx;
+    private bool hasPlayedDetectedSfx = false;
+    private AudioSource audioSource;
+    
     void Start()
     {
-        
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            audioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
-    */
 
     // Update is called once per frame
     void Update()
@@ -67,7 +74,7 @@ public class DroneDetection : Detection
         }
     }
 
-    public override void PlayerDetected(Transform playerInput) 
+    public override void PlayerDetected(Transform playerInput)
     {
         // on player detection enable chasing, disable patrol and pass the player input
 
@@ -77,6 +84,13 @@ public class DroneDetection : Detection
         detectionLight.color = Color.red;
         spotLight.color = Color.red;
 
+        // play detected sound effect
+        if (!hasPlayedDetectedSfx && detectedSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(detectedSfx);
+            hasPlayedDetectedSfx = true;
+        }
+
         StartCoroutine(ExplosionCountdown());
     }
 
@@ -85,6 +99,7 @@ public class DroneDetection : Detection
 
         GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
 
+        
 
         // layer mask
         LayerMask mask = ~LayerMask.GetMask("Enemy");
@@ -116,7 +131,27 @@ public class DroneDetection : Detection
         }
         // play explosion
         //GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
-        Destroy(gameObject);
+        
+        // Make the drone invisible
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+        {
+            r.enabled = false;
+        }
+
+         // Play explosion sound and destroy after sound finishes
+        if (explosionSfx != null && audioSource != null)
+        {
+            Debug.Log("Playing explosion sound, length: " + explosionSfx.length);
+            audioSource.volume = 3f;
+            audioSource.spatialBlend = 0f;
+            audioSource.PlayOneShot(explosionSfx);
+            Destroy(gameObject, explosionSfx.length);
+        }
+        else
+        {
+            Debug.LogWarning("Explosion sound or AudioSource missing!");
+            Destroy(gameObject);
+        }
 
 
     }
@@ -140,11 +175,13 @@ public class DroneDetection : Detection
             }
             yield return null;
         }
+
         //yield return new WaitForSeconds(countdown);
         detectionLight.enabled = true;
 
         // wait a sec
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
+        
         this.Explode();
     }
 
@@ -170,6 +207,6 @@ public class DroneDetection : Detection
 
     public override void PlayerLost()
     {
-        
+        hasPlayedDetectedSfx = false;
     }
 }
