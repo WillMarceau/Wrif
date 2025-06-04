@@ -14,14 +14,28 @@ public class WarriorDetection : Detection
     public Light spotLight;
     public GameObject muzzleFlash;
     public Transform shootPoint;
+    //new test code
+    public AudioClip playerDetectedClip; 
+    public AudioClip fireClip;          
+    private AudioSource audioSource;
+    private bool hasPlayedDetectedSound = false;
     EnemyObserver observerScript;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
-    
+
     void Start()
     {
         shootTimer = 0.5f;
         observerScript = GetComponentInChildren<EnemyObserver>();
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+        {
+            Debug.LogError("AudioSource component NOT found on " + gameObject.name);
+        }
+        else
+        {
+            Debug.Log("AudioSource found on " + gameObject.name);
+        }
     }
     
 
@@ -49,7 +63,7 @@ public class WarriorDetection : Detection
         
     }
 
-    public override void PlayerDetected(Transform playerInput) 
+    public override void PlayerDetected(Transform playerInput)
     {
         // activate attacking sequence
         isAttacking = true;
@@ -57,6 +71,14 @@ public class WarriorDetection : Detection
         detectionLight.color = Color.red;
         //Debug.Log("player inside");
         spotLight.color = Color.red;
+
+        // Play player detected sound
+        if (!hasPlayedDetectedSound && audioSource != null && playerDetectedClip != null)
+        {
+            Debug.Log("Player detected sound");
+            audioSource.PlayOneShot(playerDetectedClip);
+            hasPlayedDetectedSound = true;
+        }
     }
 
     public override void PlayerLost()
@@ -67,6 +89,7 @@ public class WarriorDetection : Detection
         detectionLight.color = Color.green;
         spotLight.color = Color.green;
         shootTimer = 0.5f;
+        hasPlayedDetectedSound = false;
 
     }
 
@@ -76,8 +99,14 @@ public class WarriorDetection : Detection
         GameObject flash = Instantiate(muzzleFlash, shootPoint.position, shootPoint.rotation);
         flash.transform.SetParent(shootPoint);
 
+        // play fire sound BEFORE destroying the flash
+        if (audioSource != null && fireClip != null)
+        {
+            Debug.Log("Playing fire sound");
+            audioSource.PlayOneShot(fireClip);
+        }
+
         Destroy(flash, 0.4f);
-        // play sound
 
         // check line of sight
         LayerMask mask = ~LayerMask.GetMask("Enemy");
