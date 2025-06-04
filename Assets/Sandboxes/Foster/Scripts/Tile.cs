@@ -7,13 +7,54 @@ public class Tile : MonoBehaviour
     public GameObject mouseOverObject;
     public GameObject clickedObject;
     public SpriteRenderer renderer;
-    private bool clicked;
+    public bool clicked;
     private bool hasBeenShot;
+    public bool strong;
+    public bool isPlayer;
+    public bool isGoal;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     
     void Start(){
-        clicked = false;
         hasBeenShot = false;
+    }
+
+    public void setPlayer(){
+        changeColor(new Color(0f,1f,0f));
+        isPlayer = true;
+    }
+    public void notPlayer(){
+        isPlayer = false;
+    }
+
+    public void setGoal(){
+        changeColor(new Color(0f,0f,1f));
+        isGoal = true;
+    }
+
+    public bool isClicked(){
+        return clicked;
+    }
+
+    public void setClicked(){
+        clicked = true;
+    Debug.Log($"{gameObject.name}: setClicked called — clicked = {clicked}");
+
+    }
+
+    public void unClicked(){
+        clicked = false;
+    }
+
+    public bool isStrong(){
+        return strong;
+    }
+
+    public void makeStrong(){
+        strong = true;
+    }
+
+    public void makeWeak(){
+        strong = false;
     }
 
     public bool isShot(){
@@ -46,9 +87,22 @@ public class Tile : MonoBehaviour
     }
 
     void OnMouseDown(){
+            if(isPlayer){
+                return;
+            }
+           if (strong){
+                return;
+           }
+            else if(!clicked){
+                    changeColor(new Color(0.25f,0.25f,0.25f));
+                    clicked = true;
+            }
+            else{
+                changeColor(new Color(0f,0f,0f));
+                strong = true;
+            }
 
-            renderer.color = new Color(1f,1f,0f);
-            clicked = true;
+                
 
     }
 }

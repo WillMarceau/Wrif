@@ -305,8 +305,9 @@ MonoBehaviour:
   tile: {fileID: 1374504640661494541, guid: 32510323a139747e8a122fd58cf3b4ab, type: 3}
   camera: {fileID: 178908661}
   canvas: {fileID: 880445306}
-  timer: 3
-  resetTimer: 2.9
+  timer: 0.5
+  resetTimer: 0.25
+  cameraHeight: 10
 --- !u!1 &507773577
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,7 +558,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
-  m_ScaleFactor: 1
+  m_ScaleFactor: 10
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
@@ -576,7 +577,7 @@ Canvas:
   m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 178908660}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
