@@ -22,6 +22,8 @@ public class TileGame : MonoBehaviour
     private int goalX;
     private int goalY;
     public float cameraHeight;
+    public RadioController radio;
+    public GameObject ceiling;
 
     void Generate()
     {
@@ -31,6 +33,7 @@ public class TileGame : MonoBehaviour
                     {
                         var spawnedTile = Instantiate(tile, new Vector3(x,y), Quaternion.identity);
                         spawnedTile.transform.SetParent(canvas.transform);
+                        spawnedTile.transform.localPosition = new Vector3(x,y);
                         spawnedTile.name = $"Tile {x} {y}";
 
                         var offset = (x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0);
@@ -39,7 +42,7 @@ public class TileGame : MonoBehaviour
                     }
             }
 
-        camera.position = new Vector3((float)(width/2 - 0.5f), (float)(height/2 - 0.5f), -cameraHeight);
+        camera.transform.localPosition = new Vector3((float)(width/2 - 0.5f), (float)(height/2 - 0.5f), -cameraHeight);
     }
 
     void setPlayerandGoal(){
@@ -175,6 +178,8 @@ public class TileGame : MonoBehaviour
     }
 
     void win(){
+        ceiling.SetActive(false);
+        radio.KeyGetPress();
         Debug.Log("win");
         return;
     }
