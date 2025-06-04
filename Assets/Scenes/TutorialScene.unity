@@ -347,6 +347,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &258400188
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 258400189}
+  m_Layer: 0
+  m_Name: Dummy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &258400189
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 258400188}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 5.1, y: 0.33, z: -33.15}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &267887598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1633,6 +1664,7 @@ MonoBehaviour:
   openWalls: {fileID: 652147099}
   pressE: {fileID: 573587662}
   interactionRange: 2
+  keyGetSfx: {fileID: 0}
 --- !u!65 &999328333
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1867,6 +1899,7 @@ MonoBehaviour:
   openWalls: {fileID: 652147099}
   pressE: {fileID: 573587662}
   interactionRange: 1
+  keyGetSfx: {fileID: 0}
 --- !u!1 &1099563091 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8088137167604405666, guid: d7beda6856df51942a0b4a77d9e9759e, type: 3}
@@ -4755,6 +4788,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1502634753}
     - target: {fileID: 5321638579898491774, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
+      propertyPath: tp1
+      value: 
+      objectReference: {fileID: 258400189}
+    - target: {fileID: 5321638579898491774, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
+      propertyPath: tp2
+      value: 
+      objectReference: {fileID: 258400189}
+    - target: {fileID: 5321638579898491774, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
+      propertyPath: tp3
+      value: 
+      objectReference: {fileID: 258400189}
+    - target: {fileID: 5321638579898491774, guid: aa68ad342c1354b8dbe399b512ef32c7, type: 3}
       propertyPath: cameraTransform
       value: 
       objectReference: {fileID: 1618836057}
@@ -4853,3 +4898,4 @@ SceneRoots:
   - {fileID: 573587666}
   - {fileID: 1792017398}
   - {fileID: 267887600}
+  - {fileID: 258400189}

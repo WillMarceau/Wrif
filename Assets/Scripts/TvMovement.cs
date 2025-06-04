@@ -31,6 +31,9 @@ public class PlayerMovement : MonoBehaviour
     private bool sprintRequest;
     private bool airborn;
     private bool slideRequest;
+    public Transform tp1;
+    public Transform tp2;
+    public Transform tp3;
 
     
     public Transform cameraTransform;
@@ -63,6 +66,19 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Alpha1) && tp1 != null)
+        {
+            Teleport(tp1);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha2) && tp2 != null)
+        {
+            Teleport(tp2);
+        }
+        else if (Input.GetKeyDown(KeyCode.Alpha3) && tp3 != null)
+        {
+            Teleport(tp3);
+        }
         // GetAxisRaw removes smoothing, allowing for instant stops
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
@@ -195,79 +211,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void Teleport(Transform location)
+    {
+        m_Rigidbody.position = location.position;
+        m_Rigidbody.linearVelocity = Vector3.zero;
+        m_Rigidbody.angularVelocity = Vector3.zero;
+    }
+
 
     // SCRIPT FOR MOVEMENT BASED ON THIRD PERSON FOLLOW CAMERA
     /*
-    void FixedUpdate()
-    {
-        // check for movement ablility
-
-        if (!canMove)
-        {
-            return;
-        }
-
-        // jump if requested
-        if (jumpRequest)
-        {
-            // double Jump trigger
-            if (resetRequest)
-            {
-                resetRequest = false;
-                Vector3 currentVert = m_Rigidbody.linearVelocity;
-                currentVert.y = 0f;
-                m_Rigidbody.linearVelocity = currentVert;
-                Jump();
-                ani.SetTrigger("IsDouble");
-            }
-            else
-            {
-                // single jump trigger
-                Jump();
-                ani.SetTrigger("IsJumping");
-            }
-
-            Jump();
-            jumpRequest = false;
-        }
-        if (slideRequest)
-        {
-            // activate animation and call slide
-            ani.SetBool("IsSliding", true);
-
-            Slide();
-
-            // change colliders
-        }
-
-        // set falling state
-        if (airborn && !slideRequest)
-        {
-            ani.SetBool("IsAirborn", true);
-        }
-        else
-        {
-            ani.SetBool("IsAirborn", false);
-        }
-
-        
-        Vector3 cameraForward = cameraTransform.forward;
-        Vector3 cameraRight = cameraTransform.right;
-        cameraForward.y = 0f;
-        cameraRight.y = 0f;
-        cameraForward.Normalize();
-        cameraRight.Normalize();
-        m_Movement = (cameraForward * vertical + cameraRight * horizontal);
-
-
-        if (new Vector2(horizontal, vertical).sqrMagnitude > 0.01f)
-        {
-            // rotate toward input movement
-            Vector3 desiredDirection = Vector3.RotateTowards(transform.forward, m_Movement, turnSpeed * Time.fixedDeltaTime, 0f);
-            m_Rotation = Quaternion.LookRotation(desiredDirection);
-            m_Rigidbody.MoveRotation(m_Rotation);
-        }
-
+   
 
                 /*
                 // dont move unless input
