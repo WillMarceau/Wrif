@@ -20,12 +20,24 @@ public class RadioController : MonoBehaviour
     private bool near = false;
 
     private bool gameActive = false;
+    public AudioClip keyGetSfx;
+    private AudioSource audioSource;
 
-
+    void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+    }
     // Called by pressing the Download Key Button, activates message saying the exits are open
 
-    public void KeyGetPress(){
+    public void KeyGetPress()
+    {
         openWalls.SetActive(true);
+        if (keyGetSfx != null && audioSource != null)
+        {
+            audioSource.PlayOneShot(keyGetSfx);
+        }   
     }
 
     // Update is called once per frame

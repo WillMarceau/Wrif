@@ -17,6 +17,7 @@ public class DroneDetection : Detection
     public Light spotLight;
 
     private bool movement = true;
+    private bool hasExploded = false;
     public AudioClip detectedSfx;
     public AudioClip explosionSfx;
     private bool hasPlayedDetectedSfx = false;
@@ -85,7 +86,7 @@ public class DroneDetection : Detection
         spotLight.color = Color.red;
 
         // play detected sound effect
-        if (!hasPlayedDetectedSfx && detectedSfx != null && audioSource != null)
+        if (!hasExploded && !hasPlayedDetectedSfx && detectedSfx != null && audioSource != null)
         {
             audioSource.PlayOneShot(detectedSfx);
             hasPlayedDetectedSfx = true;
@@ -96,10 +97,10 @@ public class DroneDetection : Detection
 
     void Explode()
     {
+        if (hasExploded) return;
+        hasExploded = true;
 
         GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
-
-        
 
         // layer mask
         LayerMask mask = ~LayerMask.GetMask("Enemy");
@@ -136,6 +137,18 @@ public class DroneDetection : Detection
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
         {
             r.enabled = false;
+        }
+        if (detectionLight != null)
+        {
+            detectionLight.enabled = false;
+            // Also disable halo if present
+            Behaviour halo = (Behaviour)detectionLight.GetComponent("Halo");
+            if (halo != null)
+                halo.enabled = false;
+        }
+        if (spotLight != null)
+        {
+            spotLight.enabled = false;
         }
 
          // Play explosion sound and destroy after sound finishes
