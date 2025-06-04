@@ -22,6 +22,9 @@ public class Tile : MonoBehaviour
         changeColor(new Color(0f,1f,0f));
         isPlayer = true;
     }
+    public void notPlayer(){
+        isPlayer = false;
+    }
 
     public void setGoal(){
         changeColor(new Color(0f,0f,1f));
@@ -84,6 +87,9 @@ public class Tile : MonoBehaviour
     }
 
     void OnMouseDown(){
+            if(isPlayer){
+                return;
+            }
            if (strong){
                 return;
            }

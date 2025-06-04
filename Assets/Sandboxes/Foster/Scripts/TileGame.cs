@@ -15,10 +15,13 @@ public class TileGame : MonoBehaviour
     private float nextShot = 0.0f;
     private float nextReset = 0.0f;
     public float resetTimer;
-    public int playerX;
-    public int playerY;
-    public int goalX;
-    public int goalY;
+    private int playerX;
+    private int playerY;
+    private int origPlayerX;
+    private int origPlayerY;
+    private int goalX;
+    private int goalY;
+    public float cameraHeight;
 
     void Generate()
     {
@@ -36,7 +39,7 @@ public class TileGame : MonoBehaviour
                     }
             }
 
-        camera.position = new Vector3((float)(width/2 - 0.5f), (float)(height/2 - 0.5f), -10);
+        camera.position = new Vector3((float)(width/2 - 0.5f), (float)(height/2 - 0.5f), -cameraHeight);
     }
 
     void setPlayerandGoal(){
@@ -49,6 +52,12 @@ public class TileGame : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        origPlayerX = 0;
+        origPlayerY = 0;
+        playerX = 0;
+        playerY = 0;
+        goalX = (int) (width - 1);
+        goalY = (int) (height - 1);
         tileArray = new Tile[(int)width,(int)height];
         Generate();
         CreateObstacles();
@@ -63,8 +72,13 @@ public class TileGame : MonoBehaviour
                       Destroy(x,y);
                     }
             }
+        Access(playerX, playerY).notPlayer();
+        playerX = origPlayerX;
+        playerY = origPlayerY;
         CreateObstacles();
         setPlayerandGoal();
+
+
     }
 
     Tile Access(int x, int y)
@@ -80,7 +94,7 @@ public class TileGame : MonoBehaviour
 
                         float num = Random.Range(0f,10f);
 
-                        if(num > 9){
+                        if(num > 9.5){
                             Tile tile = Access(x,y);
                             tile.changeColor(new Color(0f,0f,0f));
                             tile.makeStrong();
@@ -91,7 +105,7 @@ public class TileGame : MonoBehaviour
 
                         }
 
-                        else if(num > 7.5){
+                        else if(num > 9){
                             Tile tile = Access(x,y);
                             tile.changeColor(new Color(0.25f,0.25f,0.25f));
                             tile.makeWeak();
@@ -111,6 +125,7 @@ public class TileGame : MonoBehaviour
                     Tile newPlayer = Access(x,y+1);
                     newPlayer.setPlayer();
                     Destroy(x,y);
+                    tile.notPlayer();
                     playerY += 1;
                 }
             }
@@ -123,6 +138,7 @@ public class TileGame : MonoBehaviour
                 if(!Access(x,y-1).isClicked()){
                     Tile newPlayer = Access(x,y-1);
                     newPlayer.setPlayer();
+                    tile.notPlayer();
                     Destroy(x,y);
                     playerY -= 1;
                 }
@@ -136,6 +152,7 @@ public class TileGame : MonoBehaviour
                 if(!Access(x + 1,y).isClicked()){
                     Tile newPlayer = Access(x + 1,y);
                     newPlayer.setPlayer();
+                    tile.notPlayer();
                     Destroy(x,y);
                     playerX += 1;
                 }
@@ -149,11 +166,17 @@ public class TileGame : MonoBehaviour
                 if(!Access(x - 1,y).isClicked()){
                     Tile newPlayer = Access(x - 1,y);
                     newPlayer.setPlayer();
+                    tile.notPlayer();
                     Destroy(x,y);
                     playerX -= 1;
                 }
             }
         }
+    }
+
+    void win(){
+        Debug.Log("win");
+        return;
     }
 
     void Destroy(int x, int y){
@@ -168,16 +191,30 @@ public class TileGame : MonoBehaviour
         int currentX = x;
         int currentY = y;
 
+        if(Access(currentX,currentY).isPlayer){
+            Reset();
+        }
+
+        if(Access(currentX,currentY).isGoal){
+            return;
+        }
+
         if(selection == "left"){
             while(currentX < width){
+
                 int[] choices = {0, 1, -1};
                 int choice = Random.Range(0,2);
                 if (currentY < height - 1 && currentY > 0){
                     currentY += choices[choice];
                 }
-                Debug.Log(currentX);
-                Debug.Log(currentY);
+
                 Tile tile = Access(currentX, currentY);
+                if(Access(currentX,currentY).isPlayer){
+                    Reset();
+                }
+                if(Access(currentX,currentY).isGoal){
+                    return;
+                }
                 if(tile.isStrong()){
                     tile.makeWeak();
                     tile.changeColor(new Color(0.25f,0.25f,0.25f));
@@ -190,9 +227,11 @@ public class TileGame : MonoBehaviour
                 else{
 
 
-                Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
-                Access(currentX, currentY).Shot();
-                currentX += 1;
+
+                    Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
+                    Access(currentX, currentY).Shot();
+
+                    currentX += 1;
                 }
 
 
@@ -200,14 +239,20 @@ public class TileGame : MonoBehaviour
         }
         else if(selection == "right"){
             while(currentX >= 0){
+
                 int[] choices = {0, 1, -1};
                 int choice = Random.Range(0,2);
                 if (currentY < height - 1 && currentY > 0){
                     currentY += choices[choice];
                 }
-                Debug.Log(currentX);
-                Debug.Log(currentY);
+
                 Tile tile = Access(currentX, currentY);
+                if(Access(currentX,currentY).isPlayer){
+                    Reset();
+                }
+                if(Access(currentX,currentY).isGoal){
+                    return;
+                }
                 if(tile.isStrong()){
                     tile.makeWeak();
                     tile.changeColor(new Color(0.25f,0.25f,0.25f));
@@ -218,9 +263,12 @@ public class TileGame : MonoBehaviour
                     return;
                 }
                 else{
-                Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
-                Access(currentX, currentY).Shot();
-                currentX -= 1;
+
+                    Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
+                    Access(currentX, currentY).Shot();
+
+
+                    currentX -= 1;
                 }
 
 
@@ -228,14 +276,20 @@ public class TileGame : MonoBehaviour
         }
         else if (selection == "bottom"){
             while(currentY < height){
+
                 int[] choices = {0, 1, -1};
                 int choice = Random.Range(0,2);
                 if (currentX < width - 1 && currentX > 0){
                     currentX += choices[choice];
                 }
-                Debug.Log(currentX);
-                Debug.Log(currentY);
+
                 Tile tile = Access(currentX, currentY);
+                if(Access(currentX,currentY).isPlayer){
+                    Reset();
+                }
+                if(Access(currentX,currentY).isGoal){
+                    return;
+                }
                 if(tile.isStrong()){
                     tile.makeWeak();
                     tile.changeColor(new Color(0.25f,0.25f,0.25f));
@@ -246,26 +300,33 @@ public class TileGame : MonoBehaviour
                     return;
                 }
                 else{
+                    Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
+                    Access(currentX, currentY).Shot();
 
 
-                Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
-                Access(currentX, currentY).Shot();
-                currentY += 1;
+
+                    currentY += 1;
                 }
 
 
             }  
         }
         else if (selection == "top"){
+
             while(currentY >= 0){
                 int[] choices = {0, 1, -1};
                 int choice = Random.Range(0,2);
                 if (currentX < width - 1 && currentX > 0){
                     currentX += choices[choice];
                 }
-                Debug.Log(currentX);
-                Debug.Log(currentY);
+
                 Tile tile = Access(currentX, currentY);
+                if(Access(currentX,currentY).isPlayer){
+                    Reset();
+                }
+                if(Access(currentX,currentY).isGoal){
+                    return;
+                }
                 if(tile.isStrong()){
                     tile.makeWeak();
                     tile.changeColor(new Color(0.25f,0.25f,0.25f));
@@ -277,9 +338,13 @@ public class TileGame : MonoBehaviour
                 }
                 else{
 
-                Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
-                Access(currentX, currentY).Shot();
-                currentY -= 1;
+
+                    Access(currentX, currentY).changeColor(new Color(1f,0f,0f));
+                    Access(currentX, currentY).Shot();
+
+
+
+                    currentY -= 1;
                 }
 
 
@@ -328,8 +393,13 @@ public class TileGame : MonoBehaviour
                         for(int y = 0; y < height; y++)
                             {
                                 if(Access(x, y).isShot()){
-                                    Destroy(x,y);
                                     Access(x, y).notShot();
+                                    if(Access(x, y).isPlayer){
+                                        Access(x,y).changeColor(new Color(0f,1f,0f));
+                                    }
+                                    else{
+                                        Destroy(x,y);
+                                    }
 
                                 }
 
@@ -338,6 +408,10 @@ public class TileGame : MonoBehaviour
     }
 
     void Update(){
+
+        if(playerX == goalX && playerY == goalY){
+            win();
+        }
 
         if(Input.GetKeyDown(KeyCode.W)){
             moveUp(playerX,playerY);
