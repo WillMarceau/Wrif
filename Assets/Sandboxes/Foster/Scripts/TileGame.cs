@@ -430,7 +430,7 @@ public class TileGame : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.A)){
             moveLeft(playerX,playerY);
         }
-        if(Input.GetKeyDown(KeyCode.E)){
+        if(Input.GetKeyDown(KeyCode.X)){
             Reset();
         }
 
