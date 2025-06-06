@@ -22,21 +22,24 @@ public class RadioController : MonoBehaviour
     private bool gameActive = false;
     public AudioClip keyGetSfx;
     private AudioSource audioSource;
+    private bool keyAudioPlayed;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
+        keyAudioPlayed = false;
     }
     // Called by pressing the Download Key Button, activates message saying the exits are open
 
     public void KeyGetPress()
     {
         openWalls.SetActive(true);
-        if (keyGetSfx != null && audioSource != null)
+        if (keyAudioPlayed == false && keyGetSfx != null && audioSource != null)
         {
             audioSource.PlayOneShot(keyGetSfx);
+            keyAudioPlayed = true;
         }   
     }
 
