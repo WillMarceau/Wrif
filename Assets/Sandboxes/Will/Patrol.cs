@@ -4,12 +4,10 @@ public class Patrol : MonoBehaviour
 {
     // waypoints
     public Transform[] patrolPoints;
-    // navMesh Agent
-    //UnityEngine.AI.NavMeshAgent navMeshAgent;
-    // current waypoint index
     // movement stuff
     public float speed;
     int index = 0;
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {

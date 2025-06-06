@@ -62,15 +62,6 @@ public class DroneDetection : Detection
                 // Start explosion
                 StartCoroutine(ExplosionWait());
 
-                /*Vector3 away = (transform.position - player.position).normalized;
-
-                away.y = 0.6f;
-
-
-                transform.position += away * 5 * Time.deltaTime;
-                */
-
-                //this.Explode();
             }
         }
     }
@@ -126,13 +117,10 @@ public class DroneDetection : Detection
                     // reload scene for now
                     Death deathScript = player.GetComponent<Death>();
                     deathScript.Die();
-                    //Destroy(player.gameObject);
                 }
             }
         }
-        // play explosion
-        //GameObject explosion = Instantiate(explosionFab, transform.position, Quaternion.identity);
-        
+        // play explosion        
         // Make the drone invisible
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
         {
@@ -189,12 +177,9 @@ public class DroneDetection : Detection
             yield return null;
         }
 
-        //yield return new WaitForSeconds(countdown);
         detectionLight.enabled = true;
 
         // wait a sec
-        //yield return new WaitForSeconds(1f);
-        
         this.Explode();
     }
 
@@ -209,15 +194,7 @@ public class DroneDetection : Detection
         this.Explode();
     }
 
-    // trigger explosion when coming into contact with player
-    //private void OnTriggerEnter(Collider other)
-    //{
-        //if (other.CompareTag("Player"))
-        //{
-            //this.Explode();
-        //}
-    //}
-
+   
     public override void PlayerLost()
     {
         hasPlayedDetectedSfx = false;

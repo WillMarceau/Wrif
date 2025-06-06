@@ -24,7 +24,7 @@ public class Death : MonoBehaviour
 
     public void Die()
     {
-        //ani.SetTrigger("IsDeath");
+
         // for now just reload the scene
         ani.SetBool("IsDeath", true);
         StartCoroutine(Dying());
@@ -38,8 +38,6 @@ public class Death : MonoBehaviour
             movementScript.canMove = false;
         }
 
-        //ani.SetTrigger("IsDeath");
-
         yield return null;
 
         AnimatorStateInfo state = ani.GetCurrentAnimatorStateInfo(0);
@@ -51,24 +49,21 @@ public class Death : MonoBehaviour
         capsule.enabled = false;
         frictionCapsule.enabled = false;
         box.enabled = true;
-        //ani.SetTrigger("IsDeath");
         yield return new WaitForSeconds(1f);
-        //Destroy(gameObject);
+
         // move player to checkpoint
         deathScreen.SetActive(true);
-        //ani.SetTrigger("IsRespawn");
         capsule.enabled = true;
         frictionCapsule.enabled = true;
         box.enabled = false;
         transform.position = spawnPoint.transform.position;
         ani.SetBool("IsDeath", false);
+
         // respawn all drones
         droneManager.RespawnAll();
 
         yield return new WaitForSeconds(1.5f);
         movementScript.canMove = true;
         deathScreen.SetActive(false);
-
-        //SceneManager.LoadScene("MainScene");
     }
 }

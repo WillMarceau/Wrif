@@ -69,7 +69,6 @@ public class WarriorDetection : Detection
         isAttacking = true;
         player = playerInput.transform;
         detectionLight.color = Color.red;
-        //Debug.Log("player inside");
         spotLight.color = Color.red;
 
         // Play player detected sound
@@ -122,7 +121,6 @@ public class WarriorDetection : Detection
                 // trigger respawn and death animations
                 // apply damage
 
-                // right now just destroy
                 Death deathScript = player.GetComponent<Death>();
                 deathScript.Die();
 
