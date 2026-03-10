@@ -1,6 +1,10 @@
 # Wrif
 Puzzle Platformer game built in Unity
 
+<img width="1623" height="787" alt="{FAED1D61-AC1A-4BF9-B82B-79E89442BCAF}" src="https://github.com/user-attachments/assets/3a1a692a-f83d-4cc5-87be-6af012a4b013" />
+<img width="1626" height="790" alt="{A722B114-4DCA-4A1E-86A7-979F1FF9E331}" src="https://github.com/user-attachments/assets/ae1458f2-c273-43e3-941a-2fa595f536c4" />
+
+
 ## Assets Used
 https://assetstore.unity.com/packages/3d/props/industrial/industrial-models-171071
 https://assetstore.unity.com/packages/3d/props/industrial/industrial-tanks-package-122228
